@@ -1,0 +1,48 @@
+{
+  "name": "destinygurukul",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.8.0",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@gsap/react": "^2.1.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/react-query": "^5.103.2",
+    "axios": "^1.19.0",
+    "browser-image-compression": "^2.0.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cn": "^0.3.2",
+    "gsap": "^3.15.0",
+    "lucide-react": "^1.28.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-error-boundary": "^6.1.6",
+    "react-hot-toast": "^2.6.0",
+    "react-icons": "^5.7.0",
+    "react-loading-skeleton": "^3.5.0",
+    "react-razorpay": "^3.0.1",
+    "react-router-dom": "^7.18.2",
+    "react-simple-star-rating": "^5.1.7",
+    "recharts": "^3.10.1",
+    "shadcn": "^4.21.0",
+    "tailwind-merge": "^3.7.0",
+    "tailwindcss": "^4.3.3",
+    "tw-animate-css": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.4",
+    "oxlint": "^1.75.0",
+    "vite": "^8.2.0"
+  }
+}
