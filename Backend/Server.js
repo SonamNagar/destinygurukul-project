@@ -28,12 +28,10 @@ const httpServer = http.createServer(app);
 
 // =========================
 // CORS CONFIGURATION
-// =========================
 const allowedOrigins = [
   "http://localhost:5173",
-  process.env.CLIENT_URL,
-].filter(Boolean);
-
+  "https://destinygurukul-frontend-kq2w.onrender.com",
+];
 // =========================
 // REAL-TIME WEBSOCKETS (Socket.io)
 // =========================
