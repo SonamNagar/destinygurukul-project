@@ -6,6 +6,7 @@ import helmet from "helmet";
 import hpp from "hpp";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv/config";
+import mongoose from "mongoose";
 import { Server as SocketServer } from "socket.io";
 
 import connectDb from "./config/db.js";
@@ -30,8 +31,6 @@ const httpServer = http.createServer(app);
 // CORS CONFIGURATION
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://destinygurukul-frontend-kq2w.onrender.com",
-
 ];
 // =========================
 // REAL-TIME WEBSOCKETS (Socket.io)
@@ -118,50 +117,60 @@ app.use(hpp());
 app.use(xssSanitize);
 
 // =========================
-// MONGODB CONNECTION
+// START SERVER AFTER DB CONNECTION
 // =========================
-connectDb();
+const PORT = process.env.PORT;
 
-// =========================
-// API ROUTES
-// =========================
-app.use("/api/tutors", tutorRoutes);
-app.use("/api/bookings", bookingRoutes);
-app.use("/api/notifications", notificationRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/upload", uploadRoutes);
-app.use("/api/payments", paymentRoutes);
+const startServer = async () => {
+  // Connect to MongoDB FIRST (with retries)
+  await connectDb();
 
-// Root route / Health check
-app.get("/", (req, res) => {
-  res.json({
-    status: "success",
-    message: "Destiny Gurukul Backend API is secure, real-time enabled, and running.",
-    version: "2.0.0",
-    features: [
-      "Authentication & JWT Refresh Flow",
-      "Forgot/Reset Password System",
-      "Multer Image Uploads",
-      "Razorpay Payment Gateway",
-      "Socket.io Real-Time Notifications",
-      "Ratings & Reviews System",
-    ],
-    timestamp: new Date().toISOString(),
+  // =========================
+  // API ROUTES (only after DB is connected)
+  // =========================
+  app.use("/api/tutors", tutorRoutes);
+  app.use("/api/bookings", bookingRoutes);
+  app.use("/api/notifications", notificationRoutes);
+  app.use("/api/admin", adminRoutes);
+  app.use("/api/users", userRoutes);
+  app.use("/api/upload", uploadRoutes);
+  app.use("/api/payments", paymentRoutes);
+
+  // Root route / Health check
+  app.get("/", (req, res) => {
+    res.json({
+      status: "success",
+      message: "Destiny Gurukul Backend API is secure, real-time enabled, and running.",
+      version: "2.0.0",
+      dbStatus: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+      dbReadyState: mongoose.connection.readyState,
+      features: [
+        "Authentication & JWT Refresh Flow",
+        "Forgot/Reset Password System",
+        "Multer Image Uploads",
+        "Razorpay Payment Gateway",
+        "Socket.io Real-Time Notifications",
+        "Ratings & Reviews System",
+      ],
+      timestamp: new Date().toISOString(),
+    });
   });
-});
 
-// =========================
-// ERROR HANDLING MIDDLEWARE
-// =========================
-app.use(notFound);
-app.use(errorHandler);
+  // =========================
+  // ERROR HANDLING MIDDLEWARE
+  // =========================
+  app.use(notFound);
+  app.use(errorHandler);
 
-const PORT = process.env.PORT ;
+  httpServer.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Socket.io is active and listening`);
+  });
+};
 
-httpServer.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-  console.log(`Socket.io is active and listening`);
+startServer().catch((err) => {
+  console.error("❌ Failed to start server:", err.message);
+  process.exit(1);
 });
 
 export { app, io, httpServer };

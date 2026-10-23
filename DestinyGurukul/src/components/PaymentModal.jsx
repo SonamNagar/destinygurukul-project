@@ -1,459 +1,538 @@
-import React, { useState } from "react";
+
+import { useState } from "react";
 import {
   CreditCard,
-  QrCode,
-  Building2,
   ShieldCheck,
   CheckCircle,
   X,
   Lock,
-
   Printer,
   Sparkles,
-
+  LoaderCircle,
+  Receipt,
+  GraduationCap,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "../api/axiosInstance";
 
-export default function PaymentModal({ booking, onClose, onSuccess }) {
-  const [activeTab, setActiveTab] = useState("upi"); // 'upi' | 'card' | 'netbanking'
+const RAZORPAY_SCRIPT =
+  "https://checkout.razorpay.com/v1/checkout.js";
+
+// Load Razorpay Checkout script
+const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    // Script already loaded
+    if (window.Razorpay) {
+      resolve(true);
+      return;
+    }
+
+    const existingScript = document.querySelector(
+      `script[src="${RAZORPAY_SCRIPT}"]`
+    );
+
+    if (existingScript) {
+      existingScript.addEventListener("load", () => resolve(true), {
+        once: true,
+      });
+
+      existingScript.addEventListener("error", () => resolve(false), {
+        once: true,
+      });
+
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = RAZORPAY_SCRIPT;
+    script.async = true;
+
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+
+    document.body.appendChild(script);
+  });
+};
+
+const PaymentModal = ({ booking, onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [receiptData, setReceiptData] = useState(null);
 
-  // Form states
-  const [upiId, setUpiId] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardHolder, setCardHolder] = useState("");
-  const [expiry, setExpiry] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [selectedBank, setSelectedBank] = useState("SBI");
+  const amount = Number(
+    booking?.amount || booking?.tutor?.fees || 500
+  );
 
-  const amount = booking?.amount || booking?.tutor?.fees || 500;
+  const tutorName =
+    booking?.tutor?.name ||
+    booking?.tutor?.fullName ||
+    "Your Tutor";
 
-  // Format Card Number (XXXX XXXX XXXX XXXX)
-  const handleCardNumberChange = (e) => {
-    const val = e.target.value.replace(/\D/g, "").slice(0, 16);
-    const formatted = val.match(/.{1,4}/g)?.join(" ") || val;
-    setCardNumber(formatted);
-  };
+  const studentName =
+    booking?.studentName ||
+    booking?.student?.name ||
+    "Student";
 
-  // Format Expiry (MM/YY)
-  const handleExpiryChange = (e) => {
-    let val = e.target.value.replace(/\D/g, "").slice(0, 4);
-    if (val.length >= 2) {
-      val = val.slice(0, 2) + "/" + val.slice(2);
-    }
-    setExpiry(val);
-  };
+  const handlePayment = async () => {
+    if (loading || paymentSuccess) return;
 
-  // Process Online Payment Verification
-  const processPayment = async (methodDetails) => {
+    setLoading(true);
+
     try {
-      setLoading(true);
+      // 1. Load Razorpay Checkout
+      const scriptLoaded = await loadRazorpayScript();
 
-      // Generate a temporary paymentId if not provided by gateway
-      const paymentId = `PAY-${Date.now()}`;
+      if (!scriptLoaded || !window.Razorpay) {
+        throw new Error(
+          "Razorpay Checkout load nahi hua. Internet connection check karein."
+        );
+      }
 
-      // Verify payment on backend (replace with actual gateway integration)
-      await api.post("/payments/verify", {
-        bookingId: booking._id,
-        razorpay_payment_id: paymentId,
-        paymentMethod: methodDetails.method,
-      });
+      // 2. Ask backend to create a real Razorpay order
+      const orderResponse = await api.post(
+        "/payments/create-order",
+        {
+          bookingId: booking._id,
+        }
+      );
 
-      const receipt = {
-        invoiceNo: `INV-${Date.now().toString().slice(-6)}`,
-        transactionId: paymentId,
-        studentName: booking.studentName,
-        studentEmail: booking.studentEmail,
-        tutorName: booking.tutor?.name || "Verified Tutor",
-        subject: booking.subject,
-        amount: amount,
-        paidAt: new Date().toLocaleString("en-IN", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        method: methodDetails.label,
+      const orderData = orderResponse.data?.data || orderResponse.data;
+
+      const orderId = orderData?.orderId;
+      const keyId =
+        orderData?.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID;
+
+      if (!orderId || !keyId) {
+        throw new Error(
+          "Payment order ya Razorpay Key ID nahi mili. Backend response check karein."
+        );
+      }
+
+      // Simulated orders must never be used for real payment.
+      if (orderData?.isSimulated) {
+        throw new Error(
+          "Backend simulated order return kar raha hai. Real Razorpay credentials aur backend configuration check karein."
+        );
+      }
+
+      // 3. Open official Razorpay Checkout
+      const options = {
+        key: keyId,
+        order_id: orderId,
+        amount: orderData.amount,
+        currency: orderData.currency || "INR",
+        name: "Destiny Gurukul",
+        description: "Tutor Booking Payment",
+        image: "/favicon.ico",
+
+        prefill: {
+          name: studentName,
+          email:
+            booking?.studentEmail ||
+            booking?.student?.email ||
+            "",
+          contact:
+            booking?.studentPhone ||
+            booking?.student?.phone ||
+            "",
+        },
+
+        notes: {
+          bookingId: booking._id,
+          tutorName,
+        },
+
+        theme: {
+          color: "#7C3AED",
+        },
+
+        modal: {
+          ondismiss: () => {
+            setLoading(false);
+          },
+        },
+
+        // Razorpay returns these details after checkout.
+        // Backend must verify the signature before marking paid.
+        handler: async (response) => {
+          try {
+            const verificationResponse = await api.post(
+              "/payments/verify",
+              {
+                bookingId: booking._id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }
+            );
+
+            const verificationData =
+              verificationResponse.data?.data ||
+              verificationResponse.data;
+
+            if (
+              verificationResponse.data?.success === false ||
+              verificationData?.verified === false
+            ) {
+              throw new Error(
+                verificationResponse.data?.message ||
+                  "Payment verification failed."
+              );
+            }
+
+            // Only show success after backend verification responds.
+            setReceiptData({
+              receiptId: response.razorpay_payment_id,
+              orderId: response.razorpay_order_id,
+              paymentId: response.razorpay_payment_id,
+              amount,
+              currency: orderData.currency || "INR",
+              date: new Date().toLocaleString("en-IN"),
+              studentName,
+              tutorName,
+              bookingId: booking._id,
+            });
+
+            setPaymentSuccess(true);
+            toast.success("Payment verified successfully!");
+
+            // Refresh the booking list.
+            if (onSuccess) {
+              onSuccess();
+            }
+          } catch (error) {
+            console.error(
+              "Payment verification error:",
+              error.response?.data || error
+            );
+
+            toast.error(
+              error.response?.data?.message ||
+                error.message ||
+                "Payment verification failed. Please contact support."
+            );
+          } finally {
+            setLoading(false);
+          }
+        },
       };
 
-      // Send receipt email (backend endpoint should handle email dispatch)
-      try {
-        await api.post("/payments/email-receipt", {
-          email: booking.studentEmail,
-          receipt,
-        });
-        console.log("Receipt email sent.");
-      } catch (emailErr) {
-        console.error("Failed to send receipt email:", emailErr);
-      }
+      const razorpay = new window.Razorpay(options);
 
-      setReceiptData(receipt);
-      setPaymentSuccess(true);
-      toast.success("💳 Payment Successful! Class Confirmed.");
+      razorpay.on("payment.failed", (response) => {
+        console.error(
+          "Razorpay payment failed:",
+          response.error
+        );
 
-      if (onSuccess) {
-        onSuccess();
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error(
-        err.response?.data?.message || "Payment processing failed. Please try again."
+        toast.error(
+          response.error?.description ||
+            "Payment failed. Please try again."
+        );
+
+        setLoading(false);
+      });
+
+      razorpay.open();
+    } catch (error) {
+      console.error(
+        "Payment initialization error:",
+        error.response?.data || error
       );
-    } finally {
+
+      toast.error(
+        error.response?.data?.message ||
+          error.message ||
+          "Unable to start payment. Please try again."
+      );
+
       setLoading(false);
     }
   };
 
-  // Submit Handlers
-  const handleUpiSubmit = (e) => {
-    e.preventDefault();
-    processPayment({ method: "UPI", label: `UPI (${upiId || "GPay/PhonePe"})` });
+  const handlePrintReceipt = () => {
+    window.print();
   };
 
-  const handleCardSubmit = (e) => {
-    e.preventDefault();
-    if (cardNumber.replace(/\s/g, "").length < 16) {
-      toast.error("Please enter a valid 16-digit card number");
-      return;
-    }
-    if (!expiry || expiry.length < 5) {
-      toast.error("Please enter a valid MM/YY expiry");
-      return;
-    }
-    if (!cvv || cvv.length < 3) {
-      toast.error("Please enter 3-digit CVV");
-      return;
-    }
-    processPayment({ method: "CARD", label: "Credit/Debit Card" });
-  };
-
-  const handleNetbankSubmit = (e) => {
-    e.preventDefault();
-    processPayment({ method: "NETBANKING", label: `Netbanking (${selectedBank})` });
-  };
+  // Prevent rendering without a booking.
+  if (!booking) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="bg-card border-border border w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden border border-slate-100 flex flex-col max-h-[92vh]">
-        
-        {/* HEADER */}
-        <div className="bg-gradient-to-r from-indigo-700 via-indigo-600 to-purple-700 p-6 text-white flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-card border-border border/10 backdrop-blur-md flex items-center justify-center border border-white/20">
-              <ShieldCheck className="text-white" size={24} />
+    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm">
+      <div className="relative my-auto w-full max-w-lg overflow-hidden rounded-3xl border border-white/10 bg-slate-950 text-white shadow-2xl">
+
+        {/* Header */}
+        <div className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-violet-900/70 via-slate-950 to-slate-950 px-6 py-6">
+          <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-violet-500/20 blur-3xl" />
+
+          <div className="relative flex items-start justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-violet-400/20 bg-violet-500/15">
+                {paymentSuccess ? (
+                  <CheckCircle className="h-6 w-6 text-emerald-400" />
+                ) : (
+                  <CreditCard className="h-6 w-6 text-violet-300" />
+                )}
+              </div>
+
+              <div>
+                <h2 className="text-xl font-bold">
+                  {paymentSuccess
+                    ? "Payment Successful"
+                    : "Secure Checkout"}
+                </h2>
+
+                <p className="mt-1 text-sm text-slate-400">
+                  {paymentSuccess
+                    ? "Your payment has been verified"
+                    : "Destiny Gurukul · Tutor Booking"}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xl font-bold flex items-center gap-2">
-                DestinyGurukul Secure Payment
-              </h3>
-              <p className="text-indigo-200 text-xs mt-0.5">
-                256-bit Encrypted SSL Payment Gateway
-              </p>
-            </div>
+
+            {!paymentSuccess && (
+              <button
+                type="button"
+                onClick={onClose}
+                disabled={loading}
+                aria-label="Close payment window"
+                className="rounded-xl p-2 text-slate-400 transition hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            )}
           </div>
-          <button
-            onClick={onClose}
-            className="w-9 h-9 rounded-full bg-card border-border border/10 hover:bg-card border-border border/20 flex items-center justify-center text-white transition"
-          >
-            <X size={18} />
-          </button>
         </div>
 
-        {/* PAYMENT SUCCESS RECEIPT SCREEN */}
-        {paymentSuccess && receiptData ? (
-          <div className="p-8 overflow-y-auto space-y-6 text-center animate-in zoom-in-95 duration-300">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600 shadow-inner">
-              <CheckCircle size={45} />
-            </div>
+        <div className="p-6">
 
-            <div>
-              <h2 className="text-2xl font-black text-foreground">Payment Successful!</h2>
-              <p className="text-muted-foreground text-sm mt-1">
-                Your home tutoring session has been booked & confirmed.
-              </p>
-            </div>
+          {/* Payment receipt */}
+          {paymentSuccess && receiptData ? (
+            <div id="payment-receipt">
+              <div className="mb-6 flex flex-col items-center text-center">
+                <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full border border-emerald-400/20 bg-emerald-500/10">
+                  <CheckCircle className="h-11 w-11 text-emerald-400" />
+                </div>
 
-            {/* DIGITAL RECEIPT CARD */}
-            <div className="bg-background border border-border rounded-2xl p-6 text-left space-y-3 font-mono text-xs text-gray-700">
-              <div className="flex justify-between border-b pb-3 font-sans">
-                <span className="font-bold text-foreground text-sm">Receipt #{receiptData.invoiceNo}</span>
-                <span className="bg-green-100 text-green-700 px-2.5 py-0.5 rounded-full text-xs font-bold">PAID</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Transaction ID:</span>
-                <span className="font-semibold text-foreground">{receiptData.transactionId}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Student Name:</span>
-                <span className="font-semibold text-foreground">{receiptData.studentName}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Tutor:</span>
-                <span className="font-semibold text-foreground">{receiptData.tutorName}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Subject:</span>
-                <span className="font-semibold text-foreground">{receiptData.subject}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Payment Method:</span>
-                <span className="font-semibold text-foreground">{receiptData.method}</span>
-              </div>
-              <div className="flex justify-between border-t pt-3 font-sans text-sm">
-                <span className="font-bold text-foreground">Amount Paid:</span>
-                <span className="font-extrabold text-primary text-base">₹{receiptData.amount}</span>
-              </div>
-            </div>
+                <div className="mb-2 flex items-center gap-2 text-emerald-400">
+                  <Sparkles className="h-4 w-4" />
+                  <span className="text-sm font-semibold">
+                    Payment Verified
+                  </span>
+                </div>
 
-            <div className="flex gap-3">
-              <button
-                onClick={() => window.print()}
-                className="flex-1 border border-gray-300 hover:bg-background text-gray-700 font-semibold py-3 rounded-xl text-sm flex items-center justify-center gap-2 transition"
-              >
-                <Printer size={16} /> Print Receipt
-              </button>
-              <button
-                onClick={onClose}
-                className="flex-1 bg-primary text-primary-foreground hover:bg-primary text-primary-foreground text-white font-semibold py-3 rounded-xl text-sm transition"
-              >
-                Done
-              </button>
-            </div>
-          </div>
-        ) : (
-          /* PAYMENT FORM & TABS */
-          <div className="flex-1 overflow-y-auto p-6 space-y-6">
-            {/* BOOKING SUMMARY BOX */}
-            <div className="bg-background border border-border rounded-2xl p-4 flex items-center justify-between">
-              <div>
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Booking Order</p>
-                <h4 className="font-bold text-foreground text-base">{booking?.subject} Home Class</h4>
-                <p className="text-xs text-muted-foreground">Tutor: {booking?.tutor?.name || "Approved Teacher"}</p>
+                <h3 className="text-4xl font-extrabold tracking-tight">
+                  ₹{receiptData.amount.toLocaleString("en-IN")}
+                </h3>
+
+                <p className="mt-2 text-sm text-slate-400">
+                  Your booking payment was successful.
+                </p>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-semibold text-muted-foreground uppercase">Total Payable</p>
-                <p className="text-2xl font-black text-primary">₹{amount}</p>
-              </div>
-            </div>
 
-            {/* TAB SELECTOR */}
-            <div className="grid grid-cols-3 gap-2 bg-background p-1.5 rounded-2xl">
-              <button
-                type="button"
-                onClick={() => setActiveTab("upi")}
-                className={`py-2.5 text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition ${
-                  activeTab === "upi"
-                    ? "bg-card border-border border text-primary shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <QrCode size={16} /> UPI / QR
-              </button>
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                <div className="mb-4 flex items-center gap-2">
+                  <Receipt className="h-5 w-5 text-violet-400" />
+                  <h3 className="font-bold">Payment Receipt</h3>
+                </div>
 
-              <button
-                type="button"
-                onClick={() => setActiveTab("card")}
-                className={`py-2.5 text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition ${
-                  activeTab === "card"
-                    ? "bg-card border-border border text-primary shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <CreditCard size={16} /> Card
-              </button>
+                <div className="space-y-4 text-sm">
+                  <div className="flex justify-between gap-4">
+                    <span className="text-slate-400">Receipt ID</span>
+                    <span className="max-w-[60%] break-all text-right font-medium">
+                      {receiptData.receiptId}
+                    </span>
+                  </div>
 
-              <button
-                type="button"
-                onClick={() => setActiveTab("netbanking")}
-                className={`py-2.5 text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition ${
-                  activeTab === "netbanking"
-                    ? "bg-card border-border border text-primary shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Building2 size={16} /> Netbanking
-              </button>
-            </div>
+                  <div className="flex justify-between gap-4">
+                    <span className="text-slate-400">Booking ID</span>
+                    <span className="max-w-[60%] break-all text-right font-medium">
+                      {receiptData.bookingId}
+                    </span>
+                  </div>
 
-            {/* TAB 1: UPI PAYMENT */}
-            {activeTab === "upi" && (
-              <form onSubmit={handleUpiSubmit} className="space-y-4 animate-in fade-in duration-200">
-                <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 text-center space-y-3">
-                  <p className="text-xs text-primary font-semibold">Fast UPI Checkout (GPay, PhonePe, Paytm, BHIM)</p>
-                  <div className="w-36 h-36 bg-card border-border border mx-auto rounded-xl p-2 shadow-inner border border-indigo-100 flex flex-col items-center justify-center">
-                    <QrCode size={110} className="text-indigo-900" />
-                    <span className="text-[10px] font-bold text-primary mt-1">SCAN & PAY</span>
+                  <div className="flex justify-between gap-4">
+                    <span className="text-slate-400">Student</span>
+                    <span className="text-right font-medium">
+                      {receiptData.studentName}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between gap-4">
+                    <span className="text-slate-400">Tutor</span>
+                    <span className="text-right font-medium">
+                      {receiptData.tutorName}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between gap-4">
+                    <span className="text-slate-400">Date</span>
+                    <span className="text-right font-medium">
+                      {receiptData.date}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between gap-4">
+                    <span className="text-slate-400">Status</span>
+                    <span className="rounded-full bg-emerald-500/10 px-3 py-1 font-semibold text-emerald-400">
+                      Verified
+                    </span>
+                  </div>
+
+                  <div className="border-t border-white/10 pt-4">
+                    <div className="flex justify-between gap-4">
+                      <span className="font-semibold">Total Paid</span>
+                      <span className="text-lg font-extrabold text-emerald-400">
+                        ₹{receiptData.amount.toLocaleString("en-IN")}
+                      </span>
+                    </div>
                   </div>
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
-                    Or Enter VPA / UPI ID
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. mobile@upi or username@okaxis"
-                    value={upiId}
-                    onChange={(e) => setUpiId(e.target.value)}
-                    className="w-full px-4 py-3 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-card border-border border transition"
-                  />
-                </div>
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={handlePrintReceipt}
+                  className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-semibold transition hover:bg-white/10"
+                >
+                  <Printer className="h-4 w-4" />
+                  Print Receipt
+                </button>
 
                 <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary text-primary-foreground text-white font-bold py-3.5 rounded-xl text-sm shadow-md hover:shadow-indigo-200 transition flex items-center justify-center gap-2 disabled:opacity-50"
+                  type="button"
+                  onClick={onClose}
+                  className="flex-1 rounded-xl bg-violet-600 px-4 py-3 font-bold transition hover:bg-violet-500"
                 >
-                  <Lock size={16} />
-                  {loading ? "Processing UPI Payment..." : `Pay ₹${amount} via Instant UPI`}
+                  Done
                 </button>
-              </form>
-            )}
-
-            {/* TAB 2: CREDIT / DEBIT CARD */}
-            {activeTab === "card" && (
-              <form onSubmit={handleCardSubmit} className="space-y-4 animate-in fade-in duration-200">
-                {/* INTERACTIVE 3D CREDIT CARD PREVIEW */}
-                <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-purple-950 text-white rounded-2xl p-5 shadow-xl space-y-4 border border-white/10 relative overflow-hidden">
-                  <div className="flex justify-between items-center">
-                    <Sparkles className="text-indigo-400" size={24} />
-                    <span className="text-xs font-mono font-bold tracking-widest text-indigo-300">SECURE CARD</span>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Booking details */}
+              <div className="mb-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-500/15">
+                    <GraduationCap className="h-6 w-6 text-violet-300" />
                   </div>
+
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                      Tutor
+                    </p>
+                    <h3 className="mt-1 truncate font-bold">
+                      {tutorName}
+                    </h3>
+                  </div>
+
+                  <ShieldCheck className="h-6 w-6 shrink-0 text-emerald-400" />
+                </div>
+
+                <div className="border-t border-white/10 pt-4">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-sm text-slate-400">
+                      Total Amount
+                    </span>
+
+                    <span className="text-3xl font-extrabold">
+                      ₹{amount.toLocaleString("en-IN")}
+                    </span>
+                  </div>
+
+                  <p className="mt-2 text-xs text-slate-500">
+                    Final amount is determined and validated by the
+                    backend.
+                  </p>
+                </div>
+              </div>
+
+              {/* Secure checkout information */}
+              <div className="mb-5 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
+                <div className="flex items-start gap-3">
+                  <Lock className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
+
                   <div>
-                    <p className="text-xs text-indigo-300 uppercase font-mono">Card Number</p>
-                    <p className="text-xl font-mono tracking-wider font-bold mt-1">
-                      {cardNumber || "•••• •••• •••• ••••"}
+                    <p className="text-sm font-semibold text-emerald-300">
+                      Secure Razorpay Payment
+                    </p>
+
+                    <p className="mt-1 text-xs leading-5 text-slate-400">
+                      Pay securely using UPI, debit card, credit card
+                      or net banking through Razorpay Checkout. Your
+                      card details are not collected by this form.
                     </p>
                   </div>
-                  <div className="flex justify-between text-xs font-mono">
-                    <div>
-                      <p className="text-indigo-300 uppercase">Card Holder</p>
-                      <p className="font-semibold uppercase">{cardHolder || booking?.studentName || "STUDENT NAME"}</p>
-                    </div>
-                    <div>
-                      <p className="text-indigo-300 uppercase">Expires</p>
-                      <p className="font-semibold">{expiry || "MM/YY"}</p>
-                    </div>
-                  </div>
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
-                    Cardholder Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Rahul Sharma"
-                    value={cardHolder}
-                    onChange={(e) => setCardHolder(e.target.value)}
-                    className="w-full px-4 py-3 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-card border-border border transition"
-                  />
-                </div>
+              {/* Pay button */}
+              <button
+                type="button"
+                onClick={handlePayment}
+                disabled={loading}
+                className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-4 font-bold shadow-lg shadow-violet-900/20 transition hover:from-violet-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {loading ? (
+                  <>
+                    <LoaderCircle className="h-5 w-5 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <Lock className="h-5 w-5" />
+                    Pay ₹{amount.toLocaleString("en-IN")}
+                  </>
+                )}
+              </button>
 
-                <div>
-                  <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
-                    Card Number
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="1234 5678 9012 3456"
-                    value={cardNumber}
-                    onChange={handleCardNumberChange}
-                    className="w-full px-4 py-3 bg-background border border-border rounded-xl text-sm font-mono focus:outline-none focus:border-indigo-500 focus:bg-card border-border border transition"
-                  />
-                </div>
+              <div className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-500">
+                <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                Secure checkout · Server-side verification
+              </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
-                      Expiry Date
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="MM/YY"
-                      value={expiry}
-                      onChange={handleExpiryChange}
-                      className="w-full px-4 py-3 bg-background border border-border rounded-xl text-sm font-mono focus:outline-none focus:border-indigo-500 focus:bg-card border-border border transition"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
-                      CVV Code
-                    </label>
-                    <input
-                      type="password"
-                      required
-                      maxLength={4}
-                      placeholder="•••"
-                      value={cvv}
-                      onChange={(e) => setCvv(e.target.value.replace(/\D/g, ""))}
-                      className="w-full px-4 py-3 bg-background border border-border rounded-xl text-sm font-mono focus:outline-none focus:border-indigo-500 focus:bg-card border-border border transition"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary text-primary-foreground text-white font-bold py-3.5 rounded-xl text-sm shadow-md hover:shadow-indigo-200 transition flex items-center justify-center gap-2 disabled:opacity-50"
-                >
-                  <Lock size={16} />
-                  {loading ? "Verifying Card..." : `Pay ₹${amount} via Card`}
-                </button>
-              </form>
-            )}
-
-            {/* TAB 3: NETBANKING */}
-            {activeTab === "netbanking" && (
-              <form onSubmit={handleNetbankSubmit} className="space-y-4 animate-in fade-in duration-200">
-                <p className="text-xs text-muted-foreground font-medium">Select your bank for secure netbanking login:</p>
-
-                <div className="grid grid-cols-2 gap-3">
-                  {["SBI", "HDFC", "ICICI", "AXIS", "KOTAK", "PNB"].map((bank) => (
-                    <button
-                      key={bank}
-                      type="button"
-                      onClick={() => setSelectedBank(bank)}
-                      className={`p-3 rounded-xl border text-sm font-bold flex items-center justify-between transition ${
-                        selectedBank === bank
-                          ? "border-indigo-600 bg-indigo-50/50 text-primary shadow-xs"
-                          : "border-border bg-card border-border border text-gray-700 hover:bg-background"
-                      }`}
-                    >
-                      <span>{bank} Bank</span>
-                      {selectedBank === bank && <CheckCircle size={16} className="text-primary" />}
-                    </button>
-                  ))}
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary text-primary-foreground text-white font-bold py-3.5 rounded-xl text-sm shadow-md hover:shadow-indigo-200 transition flex items-center justify-center gap-2 disabled:opacity-50 mt-4"
-                >
-                  <Lock size={16} />
-                  {loading ? "Redirecting to Bank..." : `Pay ₹${amount} via ${selectedBank} Netbanking`}
-                </button>
-              </form>
-            )}
-          </div>
-        )}
-
-        {/* FOOTER */}
-        <div className="bg-background border-t border-slate-100 px-6 py-3 text-center text-[11px] text-muted-foreground flex items-center justify-between">
-          <span className="flex items-center gap-1 font-semibold text-muted-foreground">
-            <ShieldCheck size={14} className="text-green-600" /> Guaranteed 100% Refund Protection
-          </span>
-          <span>DestinyGurukul Payment Engine</span>
+              <p className="mt-4 text-center text-xs leading-5 text-slate-500">
+                Please do not close this window while payment
+                verification is in progress.
+              </p>
+            </>
+          )}
         </div>
       </div>
+
+      {/* Print only the receipt */}
+      <style>
+        {`
+          @media print {
+            body * {
+              visibility: hidden !important;
+            }
+
+            #payment-receipt,
+            #payment-receipt * {
+              visibility: visible !important;
+            }
+
+            #payment-receipt {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+              color: #111827 !important;
+              background: white !important;
+              padding: 24px;
+            }
+
+            #payment-receipt button {
+              display: none !important;
+            }
+          }
+        `}
+      </style>
     </div>
   );
-}
+};
+
+export default PaymentModal;
+

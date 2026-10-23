@@ -86,9 +86,17 @@ const MyBooking = () => {
   // ==========================================
   // ONLINE PAYMENT
   // ==========================================
-  function handlePayOnline(booking) {
-    setSelectedBookingForPayment(booking);
+  
+function handlePayOnline(booking) {
+  if (booking.paymentStatus === "paid") {
+    return;
   }
+
+  setProcessingPayment(booking._id);
+  setSelectedBookingForPayment(booking);
+}
+
+
 
   // ==========================================
   // FORMAT DATE
