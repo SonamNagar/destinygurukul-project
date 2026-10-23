@@ -1,28 +1,43 @@
+
 import axios from "axios";
 
+// ==========================================
+// AXIOS INSTANCE
+// ==========================================
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ,
-  // httpOnly cookies automatically send hongi
+  baseURL: API_URL,
   withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
+// ==========================================
+// REFRESH STATE
+// ==========================================
 
-// ===============================
+// Ek samay par sirf ek refresh request chalegi.
+let refreshPromise = null;
+
+// ==========================================
 // REQUEST INTERCEPTOR
-// ===============================
-// Cookies httpOnly hain — frontend unhe read/set nahi kar sakta
-// Browser automatically cookies har request mein bhejta hai
-// Isliye koi manual token header set karne ki zaroorat nahi
+// ==========================================
 
 api.interceptors.request.use(
-  (config) => config,
-  (error) => Promise.reject(error)
+  (config) => {
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
-
-// ===============================
+// ==========================================
 // RESPONSE INTERCEPTOR
-// ===============================
+// ==========================================
 
 api.interceptors.response.use(
   (response) => response,
@@ -30,47 +45,78 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Access token expire hua — silently refresh karo
+    // Request configuration available nahi hai.
+    if (!originalRequest) {
+      return Promise.reject(error);
+    }
+
+    const requestUrl = originalRequest.url || "";
+
+    // Authentication endpoints par automatic refresh nahi karna.
+    const isAuthRequest =
+      requestUrl.includes("/users/login") ||
+      requestUrl.includes("/users/register") ||
+      requestUrl.includes("/users/refresh-token") ||
+      requestUrl.includes("/users/logout");
+
+    // Sirf 401 par refresh attempt karna.
     if (
-      error.response?.status === 401 &&
-      !originalRequest._retry
+      error.response?.status !== 401 ||
+      originalRequest._retry ||
+      isAuthRequest
     ) {
-      originalRequest._retry = true;
+      return Promise.reject(error);
+    }
 
-      try {
-        // Refresh token bhi cookie mein hai — bas endpoint call karo
-        await axios.post(
-          `${import.meta.env.VITE_API_URL}/users/refresh-token`,
+    // Ek request ko baar-baar retry nahi karna.
+    originalRequest._retry = true;
+
+    try {
+      // Agar refresh request pehle se chal rahi hai,
+      // to usi request ka result wait karo.
+      if (!refreshPromise) {
+        refreshPromise = axios.post(
+          `${API_URL}/users/refresh-token`,
           {},
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
+      }
 
-        // Naya accessToken cookie mein set ho gaya — original request dobara bhejo
-        return api(originalRequest);
+      await refreshPromise;
 
-      } catch (refreshError) {
-        console.log("Session expired:", refreshError);
+      // Refresh successful hone par original request retry karo.
+      return api(originalRequest);
+    } catch (refreshError) {
+      console.error(
+        "Token refresh failed:",
+        refreshError.response?.status,
+        refreshError.response?.data || refreshError.message
+      );
 
-        // Cookies clear karo (logout)
-        await axios.post(
-          `${import.meta.env.VITE_API_URL}/users/logout`,
-          {},
-          { withCredentials: true }
-        ).catch(() => {});
+      // Sirf authentication failure par local session clear karo.
+      const status = refreshError.response?.status;
 
-        // User info localStorage se bhi hataao
+      if (status === 401 || status === 403) {
         localStorage.removeItem("user");
         localStorage.removeItem("teacherEmail");
 
-        window.location.href = "/login";
-
-        return Promise.reject(refreshError);
+        if (window.location.pathname !== "/login") {
+          window.location.replace("/login");
+        }
       }
-    }
 
-    return Promise.reject(error);
+      // Network/server error par user data turant clear nahi karte.
+      return Promise.reject(refreshError);
+    } finally {
+      refreshPromise = null;
+    }
   }
 );
 
-
 export default api;
+
