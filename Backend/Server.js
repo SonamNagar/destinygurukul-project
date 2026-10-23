@@ -23,10 +23,12 @@ import {
   xssSanitize,
   mongoSanitizeMiddleware,
 } from "./middleware/sanitizeMiddleware.js";
-
 const app = express();
-const httpServer = http.createServer(app);
 
+// Render proxy configuration
+app.set("trust proxy", 1);
+
+const httpServer = http.createServer(app);
 // =========================
 // CORS CONFIGURATION
 const allowedOrigins = [
