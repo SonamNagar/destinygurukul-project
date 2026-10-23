@@ -31,6 +31,7 @@ const httpServer = http.createServer(app);
 // CORS CONFIGURATION
 const allowedOrigins = [
   "http://localhost:5173",
+  "https://destinygurukul-project-frontend.onrender.com"
 ];
 // =========================
 // REAL-TIME WEBSOCKETS (Socket.io)
