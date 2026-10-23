@@ -28,6 +28,7 @@ const app = express();
 // Render proxy configuration
 app.set("trust proxy", 1);
 
+console.log("Trust proxy setting:", app.get("trust proxy"));
 const httpServer = http.createServer(app);
 // =========================
 // CORS CONFIGURATION
