@@ -1,164 +1,155 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-@import "@fontsource-variable/inter";
 
-@custom-variant dark (&:is(.dark *));
+@theme {
+  --color-background: #09090b;
+  --color-foreground: #fafafa;
 
-@theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Inter Variable', sans-serif;
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
+  --color-card: #0c0c0e;
+  --color-card-foreground: #fafafa;
+
+  --color-popover: #09090b;
+  --color-popover-foreground: #fafafa;
+
+  --color-primary: #fafafa;
+  --color-primary-foreground: #09090b;
+  --color-primary-hover: #e4e4e7;
+  --color-primary-light: #27272a;
+
+  --color-secondary: #18181b;
+  --color-secondary-foreground: #fafafa;
+
+  --color-muted: #18181b;
+  --color-muted-foreground: #a1a1aa;
+
+  --color-accent: #27272a;
+  --color-accent-foreground: #fafafa;
+
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #fafafa;
+
+  --color-border: #27272a;
+  --color-input: #27272a;
+  --color-ring: #d4d4d8;
+
+  --color-bg-primary: #09090b;
+  --color-bg-secondary: #0c0c0e;
+  --color-bg-tertiary: #18181b;
+  --color-bg-card: #0c0c0e;
+  --color-bg-hover: #1c1c20;
+
+  --color-text-primary: #fafafa;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: #71717a;
+  --color-text-inverse: #09090b;
+
+  --color-success: #10b981;
+  --color-success-light: rgba(16, 185, 129, 0.15);
+  --color-warning: #f59e0b;
+  --color-warning-light: rgba(245, 158, 11, 0.15);
+  --color-danger: #ef4444;
+  --color-danger-light: rgba(239, 68, 68, 0.15);
+  --color-info: #06b6d4;
+  --color-info-light: rgba(6, 182, 212, 0.15);
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
 }
 
-:root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
-}
-
+:root,
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+  --background: #09090b;
+  --foreground: #fafafa;
+
+  --card: #0c0c0e;
+  --card-foreground: #fafafa;
+
+  --popover: #09090b;
+  --popover-foreground: #fafafa;
+
+  --primary: #fafafa;
+  --primary-foreground: #09090b;
+  --primary-hover: #e4e4e7;
+  --primary-light: #27272a;
+
+  --secondary: #18181b;
+  --secondary-foreground: #fafafa;
+
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+
+  --accent: #27272a;
+  --accent-foreground: #fafafa;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #d4d4d8;
+
+  /* Extended legacy mappings */
+  --bg-primary: #09090b;
+  --bg-secondary: #0c0c0e;
+  --bg-tertiary: #18181b;
+  --bg-card: #0c0c0e;
+  --bg-hover: #1c1c20;
+
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --text-inverse: #09090b;
+
+  --border-color: #27272a;
+  --border-focus: #52525b;
+
+  --success: #10b981;
+  --success-light: rgba(16, 185, 129, 0.15);
+  --warning: #f59e0b;
+  --warning-light: rgba(245, 158, 11, 0.15);
+  --danger: #ef4444;
+  --danger-light: rgba(239, 68, 68, 0.15);
+  --info: #06b6d4;
+  --info-light: rgba(6, 182, 212, 0.15);
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
-  html {
-    @apply font-sans;
-    }
-}
-
-/* =======================================================
-   VUEXY DESIGN SYSTEM & UI UTILITIES
-   ======================================================= */
-:root {
-  --vuexy-primary: #7367F0;
-  --vuexy-primary-rgb: 115, 103, 240;
-  --vuexy-primary-hover: #655bd3;
-  --vuexy-primary-gradient: linear-gradient(72.44deg, #7367F0 0%, #9E95F5 100%);
-  --vuexy-success: #28C76F;
-  --vuexy-warning: #FF9F43;
-  --vuexy-danger: #EA5455;
-  --vuexy-info: #00CFE8;
-  --vuexy-card-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.08);
-  --vuexy-card-shadow-hover: 0 8px 30px 0 rgba(34, 41, 47, 0.14);
-}
-
-.vuexy-gradient-primary {
-  background: linear-gradient(72.44deg, #7367F0 0%, #9E95F5 100%);
-}
-
+/* ==============================
+   SHADCN BLACK THEME BUTTONS & CARDS
+============================== */
 .vuexy-btn-primary {
-  background: linear-gradient(72.44deg, #7367F0 0%, #9E95F5 100%);
-  color: #ffffff;
-  box-shadow: 0 8px 25px -8px #7367F0;
-  transition: all 0.25s ease-in-out;
+  background: #fafafa;
+  color: #09090b !important;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .vuexy-btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px -6px rgba(115, 103, 240, 0.65);
+  background: #e4e4e7;
+  color: #09090b !important;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
 }
 
 .vuexy-btn-primary:active {
@@ -166,50 +157,30 @@
 }
 
 .vuexy-card {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(115, 103, 240, 0.1);
-  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.08);
-  border-radius: 1rem;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background-color: #0c0c0e;
+  border: 1px solid #27272a;
+  border-radius: 0.875rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
 }
 
 .vuexy-card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px 0 rgba(115, 103, 240, 0.16);
-  border-color: rgba(115, 103, 240, 0.3);
+  border-color: #3f3f46;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+  transform: translateY(-2px);
 }
 
-.vuexy-glass {
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+/* Base Body Styles */
+html {
+  font-family: var(--font-sans);
+  color: #fafafa;
+  background-color: #09090b;
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
 }
 
-.vuexy-glass-dark {
-  background: rgba(22, 29, 49, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.vuexy-badge-primary {
-  background: rgba(115, 103, 240, 0.12);
-  color: #7367F0;
-  border-radius: 9999px;
-  font-weight: 600;
-}
-
-.vuexy-badge-success {
-  background: rgba(40, 199, 111, 0.14);
-  color: #28C76F;
-  border-radius: 9999px;
-  font-weight: 600;
-}
-
-.vuexy-badge-warning {
-  background: rgba(255, 159, 67, 0.14);
-  color: #FF9F43;
-  border-radius: 9999px;
-  font-weight: 600;
+body {
+  background-color: #09090b;
+  color: #fafafa;
+  min-height: 100vh;
 }

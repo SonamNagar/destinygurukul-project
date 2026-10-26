@@ -92,7 +92,7 @@ export default function TeachingRequests() {
           <Skeleton height={18} width={200} className="mb-8" />
           <div className="space-y-5">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6">
+              <div key={i} className="bg-card rounded-2xl border border-border shadow-sm p-6">
                 <div className="flex items-center gap-4 mb-4">
                   <Skeleton circle width={52} height={52} />
                   <div>
@@ -123,7 +123,7 @@ export default function TeachingRequests() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
 
-        <div className="bg-card border-border border rounded-2xl shadow p-8 text-center max-w-md">
+        <div className="bg-card rounded-2xl shadow p-8 text-center max-w-md">
 
           <XCircle
             size={50}
@@ -174,7 +174,7 @@ export default function TeachingRequests() {
 
         {bookings.length === 0 && (
 
-          <div className="bg-card border-border border rounded-2xl shadow p-12 text-center">
+          <div className="bg-card rounded-2xl shadow p-12 text-center">
 
             <Clock3
               size={60}
@@ -203,7 +203,7 @@ export default function TeachingRequests() {
 
             <div
               key={booking._id}
-              className="bg-card border-border border rounded-2xl shadow p-7"
+              className="bg-card rounded-2xl shadow p-7"
             >
 
               {/* TOP */}

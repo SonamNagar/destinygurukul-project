@@ -57,7 +57,7 @@ export default function TeacherDashboard() {
         <div className="max-w-6xl mx-auto">
 
           {/* Header Skeleton */}
-          <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-8 mb-6">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-8 mb-6">
             <div className="flex items-center gap-5">
               <Skeleton circle width={72} height={72} />
               <div>
@@ -70,7 +70,7 @@ export default function TeacherDashboard() {
           {/* Stats Skeleton */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6">
+              <div key={i} className="bg-card rounded-2xl border border-border shadow-sm p-6">
                 <Skeleton circle width={48} height={48} className="mb-4" />
                 <Skeleton height={28} width={40} />
                 <Skeleton height={16} width={100} className="mt-2" />
@@ -79,7 +79,7 @@ export default function TeacherDashboard() {
           </div>
 
           {/* Content Skeleton */}
-          <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-8">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-8">
             <Skeleton height={24} width={200} className="mb-6" />
             <div className="grid md:grid-cols-2 gap-6">
               {[...Array(6)].map((_, i) => (
@@ -102,7 +102,7 @@ export default function TeacherDashboard() {
   if (error) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
-        <div className="bg-card border-border border shadow-lg rounded-2xl p-8 text-center max-w-md w-full border border-border">
+        <div className="bg-card shadow-lg rounded-2xl p-8 text-center max-w-md w-full border border-border">
           <XCircle size={55} className="mx-auto text-red-500 mb-4" />
           <h2 className="text-2xl font-bold text-foreground mb-2">
             Unable to Load Dashboard
@@ -169,7 +169,7 @@ export default function TeacherDashboard() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
 
             <div className="flex items-center gap-5">
-              <div className="w-16 h-16 rounded-2xl bg-card border-border border/20 backdrop-blur-sm flex items-center justify-center border border-white/30 shadow-lg">
+              <div className="w-16 h-16 rounded-2xl bg-card/20 backdrop-blur-sm flex items-center justify-center border border-white/30 shadow-lg">
                 <GraduationCap size={32} />
               </div>
               <div>
@@ -182,7 +182,7 @@ export default function TeacherDashboard() {
             <div className="flex gap-3">
               <button
                 onClick={() => navigate("/teaching-requests")}
-                className="flex items-center gap-2 bg-card border-border border text-primary px-5 py-2.5 rounded-xl font-semibold hover:bg-indigo-50 transition shadow-sm text-sm"
+                className="flex items-center gap-2 bg-card text-primary px-5 py-2.5 rounded-xl font-semibold hover:bg-indigo-50 transition shadow-sm text-sm"
               >
                 <BookOpen size={16} />
                 Booking Requests
@@ -200,7 +200,7 @@ export default function TeacherDashboard() {
         ==================================================== */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
 
-          <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center">
               <Star className="text-primary" size={22} />
             </div>
@@ -212,7 +212,7 @@ export default function TeacherDashboard() {
             </div>
           </div>
 
-          <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center">
               <BookOpen className="text-green-600" size={22} />
             </div>
@@ -224,7 +224,7 @@ export default function TeacherDashboard() {
             </div>
           </div>
 
-          <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-yellow-50 flex items-center justify-center">
               <IndianRupee className="text-yellow-600" size={22} />
             </div>
@@ -236,7 +236,7 @@ export default function TeacherDashboard() {
             </div>
           </div>
 
-          <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center">
               <Clock className="text-violet-600" size={22} />
             </div>
@@ -256,7 +256,7 @@ export default function TeacherDashboard() {
           <div className="lg:col-span-2 space-y-6">
 
             {/* APPLICATION STATUS */}
-            <div className={`bg-card border-border border rounded-2xl border shadow-sm p-6`}>
+            <div className={`bg-card rounded-2xl border shadow-sm p-6`}>
               <h2 className="text-xl font-bold text-foreground mb-5">Application Status</h2>
 
               <div className={`border-2 ${sc.bg} rounded-xl p-5`}>
@@ -317,7 +317,7 @@ export default function TeacherDashboard() {
             </div>
 
             {/* PROFILE INFO */}
-            <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6">
+            <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
               <h2 className="text-xl font-bold text-foreground mb-5">Your Profile</h2>
 
               <div className="grid md:grid-cols-2 gap-5">
@@ -377,7 +377,7 @@ export default function TeacherDashboard() {
 
             {/* RECENT REVIEWS */}
             {tutor.reviews && tutor.reviews.length > 0 && (
-              <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6">
+              <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
                 <h2 className="text-xl font-bold text-foreground mb-5">Recent Reviews</h2>
                 <div className="space-y-4">
                   {tutor.reviews.slice(0, 3).map((review, i) => (
@@ -401,7 +401,7 @@ export default function TeacherDashboard() {
           <div className="space-y-6">
 
             {/* Notification Card */}
-            <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6">
+            <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
               <h2 className="text-lg font-bold text-foreground flex items-center gap-2 mb-4">
                 <Bell size={18} className="text-primary" />
                 Notification
@@ -414,7 +414,7 @@ export default function TeacherDashboard() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6">
+            <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
               <h2 className="text-lg font-bold text-foreground mb-4">Quick Actions</h2>
               <div className="space-y-3">
                 <Link
@@ -436,7 +436,7 @@ export default function TeacherDashboard() {
 
             {/* Rating Summary */}
             {tutor.numReviews > 0 && (
-              <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6">
+              <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
                 <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                   <Star size={18} className="text-yellow-500" />
                   Rating Summary

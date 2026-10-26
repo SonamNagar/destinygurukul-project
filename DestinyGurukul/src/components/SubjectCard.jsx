@@ -71,20 +71,42 @@ export default function SubjectCard() {
 
   useEffect(() => {
     async function fetchSubjects() {
+      // 1. Check session cache first to reduce Home page data flow
+      try {
+        const cached = sessionStorage.getItem("destiny_popular_subjects_cache");
+        if (cached) {
+          const { data, timestamp } = JSON.parse(cached);
+          if (Date.now() - timestamp < 1000 * 60 * 10 && Array.isArray(data) && data.length > 0) {
+            setSubjectsList(data);
+            setLoading(false);
+            return;
+          }
+        }
+      } catch (cacheErr) {
+        console.warn("Subjects cache read error:", cacheErr);
+      }
+
       try {
         setLoading(true);
         const response = await api.get("/tutors/popular-subjects");
 
         if (Array.isArray(response.data) && response.data.length > 0) {
           setSubjectsList(response.data);
+          try {
+            sessionStorage.setItem(
+              "destiny_popular_subjects_cache",
+              JSON.stringify({ data: response.data, timestamp: Date.now() })
+            );
+          } catch (writeErr) {
+            console.warn("Subjects cache write error:", writeErr);
+          }
         } else {
           // If no approved tutor subjects in DB yet, show default categories with 0 count
-          setSubjectsList(
-            defaultPopularSubjects.map((name) => ({
-              name,
-              tutorsCount: 0,
-            }))
-          );
+          const defaultList = defaultPopularSubjects.map((name) => ({
+            name,
+            tutorsCount: 0,
+          }));
+          setSubjectsList(defaultList);
         }
       } catch (error) {
         console.log("Subjects fetch error:", error);
@@ -150,12 +172,12 @@ export default function SubjectCard() {
   };
 
   return (
-    <section ref={sectionRef} className="py-20 bg-card border-border border">
+    <section ref={sectionRef} className="py-20 bg-[#09090b] border-t border-zinc-800/80">
       <div className="max-w-7xl mx-auto px-6">
         {/* Heading */}
         <div ref={headingRef} className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-foreground">Popular Subjects</h2>
-          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl font-bold text-zinc-100 tracking-tight">Popular Subjects</h2>
+          <p className="mt-3 text-zinc-400 max-w-2xl mx-auto text-sm sm:text-base">
             Choose from a wide range of subjects and connect with experienced
             tutors for personalized learning.
           </p>
@@ -163,7 +185,7 @@ export default function SubjectCard() {
 
         {/* Loading */}
         {loading ? (
-          <div className="text-center py-10 text-muted-foreground">
+          <div className="text-center py-10 text-zinc-500 text-sm">
             Loading subjects...
           </div>
         ) : (
@@ -174,20 +196,20 @@ export default function SubjectCard() {
                 key={subject.name || idx}
                 ref={(el) => (cardsRef.current[idx] = el)}
                 onClick={() => handleExplore(subject.name)}
-                className="vuexy-card vuexy-card-hover p-6 text-center cursor-pointer flex flex-col justify-between group"
+                className="p-6 rounded-2xl bg-[#0c0c0e] border border-zinc-800 text-center cursor-pointer flex flex-col justify-between group hover:border-zinc-600 hover:shadow-2xl hover:shadow-black/60 transition-all duration-300"
               >
                 <div>
-                  <div className="flex justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-                    <div className="p-4 rounded-2xl bg-[#7367F0]/10 border border-[#7367F0]/20">
+                  <div className="flex justify-center mb-5 group-hover:scale-105 transition-transform duration-300">
+                    <div className="p-4 rounded-2xl bg-zinc-900 border border-zinc-800 group-hover:border-zinc-700">
                       {getSubjectIcon(subject.name)}
                     </div>
                   </div>
 
-                  <h3 className="text-lg font-bold text-slate-800 dark:text-white group-hover:text-[#7367F0] transition-colors">
+                  <h3 className="text-base sm:text-lg font-bold text-zinc-100 group-hover:text-white transition-colors">
                     {subject.name}
                   </h3>
 
-                  <p className="text-slate-500 text-xs sm:text-sm mt-2 font-medium">
+                  <p className="text-zinc-400 text-xs sm:text-sm mt-1.5 font-medium">
                     {subject.tutorsCount > 0
                       ? `${subject.tutorsCount} Verified Tutor${
                           subject.tutorsCount > 1 ? "s" : ""
@@ -202,7 +224,7 @@ export default function SubjectCard() {
                     e.stopPropagation();
                     handleExplore(subject.name);
                   }}
-                  className="mt-5 w-full vuexy-btn-primary py-2.5 rounded-xl text-xs sm:text-sm font-bold tracking-wide"
+                  className="mt-5 w-full bg-zinc-100 text-zinc-950 hover:bg-zinc-200 py-2.5 rounded-xl text-xs sm:text-sm font-semibold tracking-wide transition cursor-pointer"
                 >
                   Explore Tutors
                 </button>

@@ -41,29 +41,37 @@ const seedAdmin = async () => {
     const email = ADMIN_EMAIL.toLowerCase().trim();
 
     // 5. Check existing user
-    const existingUser = await User.findOne({ email });
+    // 5. Check existing user
+const existingUser = await User.findOne({ email }).select("+password");
 
-    if (existingUser) {
-      if (existingUser.role === "admin") {
-        console.log("Admin already exists. No changes made.");
-      } else {
-        // Promote existing user to admin while preserving password and other fields
-        existingUser.role = "admin";
-        await existingUser.save();
-        console.log("Existing user promoted to admin role.");
-      }
+if (existingUser) {
+  // Promote user to admin
+  existingUser.role = "admin";
 
-      return;
-    }
+  // Update admin details
+  existingUser.name = ADMIN_NAME;
 
-    // 6. Create new Admin
-    await User.create({
-      name: ADMIN_NAME,
-      email,
-      password: ADMIN_PASSWORD,
-      role: "admin",
-      ...(ADMIN_PHONE ? { phoneNumber: ADMIN_PHONE } : {}),
-    });
+  // Set new password
+  existingUser.password = ADMIN_PASSWORD;
+
+  // Save changes; User.js pre-save hook will hash the password
+  await existingUser.save();
+
+  console.log("Existing user updated successfully.");
+  console.log("Admin role and password updated.");
+} else {
+  // 6. Create new Admin
+  await User.create({
+    name: ADMIN_NAME,
+    email,
+    password: ADMIN_PASSWORD,
+    role: "admin",
+    ...(ADMIN_PHONE ? { phoneNumber: ADMIN_PHONE } : {}),
+  });
+
+  console.log("Admin created successfully.");
+}
+
 
     console.log("Admin created successfully.");
   } catch (error) {

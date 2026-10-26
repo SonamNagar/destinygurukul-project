@@ -64,7 +64,7 @@ export default function HowItWorks() {
               className={`bg-gradient-to-b ${step.color} backdrop-blur-xl border rounded-3xl p-8 text-center hover:scale-105 transition shadow-2xl flex flex-col justify-between`}
             >
               <div>
-                <div className="w-16 h-16 rounded-2xl bg-card border-border border/10 flex items-center justify-center mx-auto mb-6 shadow-inner border border-white/10">
+                <div className="w-16 h-16 rounded-2xl bg-card/10 flex items-center justify-center mx-auto mb-6 shadow-inner border border-white/10">
                   {step.icon}
                 </div>
 
@@ -86,7 +86,7 @@ export default function HowItWorks() {
         </div>
 
         {/* Journey Timeline */}
-        <div className="mt-16 bg-card border-border border/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 shadow-2xl">
+        <div className="mt-16 bg-card/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 shadow-2xl">
 
           <h2 className="text-3xl font-extrabold text-center mb-8 text-white flex items-center justify-center gap-2">
             <Sparkles className="text-amber-400" size={24} /> Student Home Learning Journey

@@ -36,12 +36,12 @@ export default function SearchBar() {
   };
 
   return (
-    <section className="bg-card border-border border py-10">
+    <section className="bg-[#09090b] py-10 border-b border-zinc-800/80">
       <div className="max-w-7xl mx-auto px-6">
 
-        <div className="bg-card border-border border shadow-xl rounded-2xl p-6">
+        <div className="bg-[#0c0c0e] border border-zinc-800 shadow-xl rounded-2xl p-6 md:p-8">
 
-          <h2 className="text-2xl font-bold text-center mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-center text-zinc-100 mb-6 tracking-tight">
             Find Your Perfect Tutor in Bhopal
           </h2>
 
@@ -52,55 +52,55 @@ export default function SearchBar() {
               {/* Subject */}
               <input
                 type="text"
-                placeholder="Subject"
+                placeholder="Subject (e.g. Maths)"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="border rounded-xl px-4 py-3 outline-none focus:border-blue-500"
+                className="bg-zinc-900 border border-zinc-800 text-zinc-100 placeholder-zinc-500 rounded-xl px-4 py-3 outline-none focus:border-zinc-500 text-sm transition"
               />
 
               {/* Class */}
               <select
                 value={classes}
                 onChange={(e) => setClasses(e.target.value)}
-                className="border rounded-xl px-4 py-3 outline-none focus:border-blue-500"
+                className="bg-zinc-900 border border-zinc-800 text-zinc-100 rounded-xl px-4 py-3 outline-none focus:border-zinc-500 text-sm cursor-pointer transition"
               >
-                <option value="">Select Class</option>
-                <option value="1-5">1 - 5</option>
-                <option value="6-8">6 - 8</option>
-                <option value="9-10">9 - 10</option>
-                <option value="11-12">11 - 12</option>
-                <option value="College">College</option>
+                <option value="" className="bg-zinc-900 text-white">Select Class</option>
+                <option value="1-5" className="bg-zinc-900 text-white">1 - 5</option>
+                <option value="6-8" className="bg-zinc-900 text-white">6 - 8</option>
+                <option value="9-10" className="bg-zinc-900 text-white">9 - 10</option>
+                <option value="11-12" className="bg-zinc-900 text-white">11 - 12</option>
+                <option value="College" className="bg-zinc-900 text-white">College</option>
               </select>
 
               {/* Area in Bhopal */}
               <select
                 value={area}
                 onChange={(e) => setArea(e.target.value)}
-                className="border rounded-xl px-4 py-3 outline-none focus:border-blue-500"
+                className="bg-zinc-900 border border-zinc-800 text-zinc-100 rounded-xl px-4 py-3 outline-none focus:border-zinc-500 text-sm cursor-pointer transition"
               >
-                <option value="">All Bhopal Areas</option>
+                <option value="" className="bg-zinc-900 text-white">All Bhopal Areas</option>
                 {BHOPAL_AREAS.map((a) => (
-                  <option key={a} value={a}>{a}</option>
+                  <option key={a} value={a} className="bg-zinc-900 text-white">{a}</option>
                 ))}
               </select>
 
               {/* Budget */}
               <input
                 type="number"
-                placeholder="Max Budget"
+                placeholder="Max Budget (₹)"
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
                 min="0"
-                className="border rounded-xl px-4 py-3 outline-none focus:border-blue-500"
+                className="bg-zinc-900 border border-zinc-800 text-zinc-100 placeholder-zinc-500 rounded-xl px-4 py-3 outline-none focus:border-zinc-500 text-sm transition"
               />
 
               {/* Search */}
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl flex items-center justify-center gap-2 font-semibold transition"
+                className="bg-white text-zinc-950 hover:bg-zinc-200 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition py-3 cursor-pointer shadow-sm"
               >
-                <Search size={20} />
-                Search
+                <Search size={18} />
+                <span>Search</span>
               </button>
 
             </div>

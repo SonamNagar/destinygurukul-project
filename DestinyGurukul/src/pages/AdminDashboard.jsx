@@ -128,7 +128,7 @@ export default function AdminDashboard() {
       <div className="min-h-screen bg-background p-6">
         <div className="max-w-7xl mx-auto">
           {/* Header skeleton */}
-          <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-8 mb-6">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-8 mb-6">
             <div className="flex items-center justify-between">
               <div>
                 <Skeleton height={28} width={220} />
@@ -140,7 +140,7 @@ export default function AdminDashboard() {
           {/* Stats grid skeleton */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6">
+              <div key={i} className="bg-card rounded-2xl border border-border shadow-sm p-6">
                 <Skeleton circle width={48} height={48} className="mb-4" />
                 <Skeleton height={28} width={50} />
                 <Skeleton height={15} width={110} className="mt-2" />
@@ -161,7 +161,7 @@ export default function AdminDashboard() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
 
-        <div className="bg-card border-border border p-8 rounded-2xl shadow text-center">
+        <div className="bg-card p-8 rounded-2xl shadow text-center">
 
           <h2 className="text-2xl font-bold text-red-600 mb-3">
             Access Denied
@@ -194,7 +194,7 @@ export default function AdminDashboard() {
 
       {/* HEADER */}
 
-      <header className="bg-card border-border border border-b">
+      <header className="bg-card border-b">
 
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
 
@@ -234,7 +234,7 @@ export default function AdminDashboard() {
 
           {/* STUDENTS */}
 
-          <div className="bg-card border-border border rounded-2xl shadow p-6">
+          <div className="bg-card rounded-2xl shadow p-6">
 
             <div className="flex items-center justify-between">
 
@@ -266,7 +266,7 @@ export default function AdminDashboard() {
 
           {/* TUTORS */}
 
-          <div className="bg-card border-border border rounded-2xl shadow p-6">
+          <div className="bg-card rounded-2xl shadow p-6">
 
             <div className="flex items-center justify-between">
 
@@ -298,7 +298,7 @@ export default function AdminDashboard() {
 
           {/* APPROVED TUTORS */}
 
-          <div className="bg-card border-border border rounded-2xl shadow p-6">
+          <div className="bg-card rounded-2xl shadow p-6">
 
             <div className="flex items-center justify-between">
 
@@ -330,7 +330,7 @@ export default function AdminDashboard() {
 
           {/* PENDING APPLICATIONS */}
 
-          <div className="bg-card border-border border rounded-2xl shadow p-6">
+          <div className="bg-card rounded-2xl shadow p-6">
 
             <div className="flex items-center justify-between">
 
@@ -376,7 +376,7 @@ export default function AdminDashboard() {
 
             {/* TOTAL BOOKINGS */}
 
-            <div className="bg-card border-border border rounded-2xl shadow p-6">
+            <div className="bg-card rounded-2xl shadow p-6">
 
               <CalendarCheck
                 className="text-blue-600 mb-3"
@@ -396,7 +396,7 @@ export default function AdminDashboard() {
 
             {/* ACCEPTED */}
 
-            <div className="bg-card border-border border rounded-2xl shadow p-6">
+            <div className="bg-card rounded-2xl shadow p-6">
 
               <CheckCircle
                 className="text-green-600 mb-3"
@@ -416,7 +416,7 @@ export default function AdminDashboard() {
 
             {/* PENDING */}
 
-            <div className="bg-card border-border border rounded-2xl shadow p-6">
+            <div className="bg-card rounded-2xl shadow p-6">
 
               <Clock
                 className="text-yellow-600 mb-3"
@@ -436,7 +436,7 @@ export default function AdminDashboard() {
 
             {/* REJECTED */}
 
-            <div className="bg-card border-border border rounded-2xl shadow p-6">
+            <div className="bg-card rounded-2xl shadow p-6">
 
               <XCircle
                 className="text-red-600 mb-3"
@@ -556,7 +556,7 @@ export default function AdminDashboard() {
 
         {/* QUICK ACTIONS */}
 
-        <div className="mt-8 bg-card border-border border rounded-2xl shadow p-6">
+        <div className="mt-8 bg-card rounded-2xl shadow p-6">
 
           <h2 className="text-2xl font-bold text-foreground mb-5">
             Quick Actions
@@ -591,7 +591,7 @@ export default function AdminDashboard() {
 
         {/* ADMIN INFORMATION */}
 
-        <div className="mt-8 bg-card border-border border rounded-2xl shadow p-6">
+        <div className="mt-8 bg-card rounded-2xl shadow p-6">
 
           <h2 className="text-2xl font-bold mb-4">
             Admin Information

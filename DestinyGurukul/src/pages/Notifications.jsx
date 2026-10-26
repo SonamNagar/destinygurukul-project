@@ -123,7 +123,7 @@ export default function Notifications() {
           <Skeleton height={18} width={160} className="mb-8" />
           <div className="space-y-4">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="bg-card border-border border rounded-2xl border border-border shadow-sm p-5">
+              <div key={i} className="bg-card rounded-2xl border border-border shadow-sm p-5">
                 <div className="flex items-start gap-4">
                   <Skeleton circle width={44} height={44} />
                   <div className="flex-1">
@@ -176,7 +176,7 @@ export default function Notifications() {
 
         {/* HEADER */}
 
-        <div className="bg-card border-border border rounded-2xl shadow p-6 mb-6">
+        <div className="bg-card rounded-2xl shadow p-6 mb-6">
 
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
@@ -227,7 +227,7 @@ export default function Notifications() {
         {/* EMPTY */}
 
         {notifications.length === 0 ? (
-          <div className="bg-card border-border border rounded-2xl shadow p-12 text-center">
+          <div className="bg-card rounded-2xl shadow p-12 text-center">
 
             <Bell
               size={55}
@@ -252,7 +252,7 @@ export default function Notifications() {
 
                 <div
                   key={notification._id}
-                  className={`bg-card border-border border rounded-2xl shadow p-5 border-l-4 ${
+                  className={`bg-card rounded-2xl shadow p-5 border-l-4 ${
                     notification.isRead
                       ? "border-border"
                       : "border-indigo-600"

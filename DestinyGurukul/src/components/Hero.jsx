@@ -148,45 +148,45 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#0b0f19] text-white relative overflow-hidden pt-12 pb-20 lg:py-24"
+      className="bg-[#09090b] text-white relative overflow-hidden pt-12 pb-20 lg:py-24"
     >
-      {/* ================= VUEXY AMBIENT GLOWS ================= */}
+      {/* ================= SUBTLE AMBIENT GLOWS ================= */}
       <div
         ref={glowOrb1Ref}
-        className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-[#7367F0]/30 to-[#9E95F5]/20 rounded-full blur-[120px] pointer-events-none"
+        className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-white/[0.03] rounded-full blur-[140px] pointer-events-none"
       />
       <div
         ref={glowOrb2Ref}
-        className="absolute bottom-10 right-1/4 w-[450px] h-[450px] bg-gradient-to-tr from-[#FF9F43]/20 via-[#7367F0]/25 to-purple-600/20 rounded-full blur-[130px] pointer-events-none"
+        className="absolute bottom-10 right-1/4 w-[450px] h-[450px] bg-zinc-700/[0.05] rounded-full blur-[140px] pointer-events-none"
       />
 
       {/* Subtle Grid Overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(#7367f0_0.75px,transparent_0.75px)] [background-size:24px_24px] opacity-[0.07] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(#27272a_0.75px,transparent_0.75px)] [background-size:24px_24px] opacity-25 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
 
         {/* ================= LEFT CONTENT (7 COLS) ================= */}
         <div className="lg:col-span-7">
 
-          {/* Vuexy Top Pill Badge */}
+          {/* Top Pill Badge */}
           <div className="inline-block">
             <span
               ref={badgeRef}
-              className="inline-flex items-center gap-2 bg-[#7367F0]/15 text-[#9E95F5] border border-[#7367F0]/30 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold backdrop-blur-md shadow-[0_0_20px_rgba(115,103,240,0.2)]"
+              className="inline-flex items-center gap-2 bg-zinc-900 text-zinc-300 border border-zinc-800 px-4 py-2 rounded-full text-xs sm:text-sm font-medium backdrop-blur-md shadow-sm"
             >
-              <Sparkles size={16} className="text-[#FF9F43] animate-spin-slow" />
+              <Sparkles size={15} className="text-zinc-200" />
               <span>Bhopal's #1 Verified Home Tutor Platform</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#28C76F] inline-block animate-pulse ml-1" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse ml-1" />
             </span>
           </div>
 
           {/* Hero Heading */}
           <h1
             ref={headingRef}
-            className="text-4xl sm:text-5xl lg:text-6xl font-black mt-6 leading-[1.15] tracking-tight"
+            className="text-4xl sm:text-5xl lg:text-6xl font-black mt-6 leading-[1.15] tracking-tight text-white"
           >
             Find the Perfect{" "}
-            <span className="bg-gradient-to-r from-[#7367F0] via-[#9E95F5] to-[#FF9F43] bg-clip-text text-transparent drop-shadow-sm">
+            <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent drop-shadow-sm">
               Home Tutor
             </span>{" "}
             at Your Doorstep in Bhopal
@@ -195,18 +195,18 @@ export default function Hero() {
           {/* Description */}
           <p
             ref={descRef}
-            className="mt-6 text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl font-normal"
+            className="mt-6 text-zinc-400 text-base sm:text-lg leading-relaxed max-w-2xl font-normal"
           >
             Learn from verified, experienced educators visiting your home across Bhopal —
-            <strong className="text-white font-semibold"> MP Nagar, Arera Colony, Kolar, Habibganj, Ayodhya Bypass</strong> & more.
+            <strong className="text-zinc-200 font-semibold"> MP Nagar, Arera Colony, Kolar, Habibganj, Ayodhya Bypass</strong> & more.
             Expert personalized coaching for Class 1-12 (CBSE/ICSE/State), IIT-JEE, NEET & Skills.
           </p>
 
-          {/* ================= VUEXY SEARCH CARD ================= */}
+          {/* ================= SEARCH CARD ================= */}
           <form
             ref={searchRef}
             onSubmit={handleSearch}
-            className="mt-8 bg-[#161D31]/90 backdrop-blur-xl border border-[#7367F0]/25 shadow-[0_12px_40px_rgba(0,0,0,0.45)] rounded-2xl sm:rounded-3xl p-3 sm:p-4 transition-all duration-300 hover:border-[#7367F0]/40"
+            className="mt-8 bg-[#0c0c0e] border border-zinc-800 shadow-2xl rounded-2xl sm:rounded-3xl p-3 sm:p-4 transition-all duration-300 hover:border-zinc-700"
           >
             <div className="grid md:grid-cols-3 gap-3">
 
@@ -217,7 +217,7 @@ export default function Hero() {
                   placeholder="Subject (e.g. Mathematics)"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="w-full bg-[#25293c]/80 text-white placeholder-slate-400 border border-slate-700/80 rounded-xl px-4 py-3 outline-none focus:border-[#7367F0] focus:ring-2 focus:ring-[#7367F0]/30 transition text-sm font-medium"
+                  className="w-full bg-zinc-900 text-white placeholder-zinc-500 border border-zinc-800 rounded-xl px-4 py-3 outline-none focus:border-zinc-500 text-sm font-medium transition"
                 />
               </div>
 
@@ -226,11 +226,11 @@ export default function Hero() {
                 <select
                   value={area}
                   onChange={(e) => setArea(e.target.value)}
-                  className="w-full bg-[#25293c]/80 text-white border border-slate-700/80 rounded-xl px-4 py-3 outline-none focus:border-[#7367F0] focus:ring-2 focus:ring-[#7367F0]/30 transition text-sm font-medium cursor-pointer"
+                  className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-xl px-4 py-3 outline-none focus:border-zinc-500 text-sm font-medium cursor-pointer transition"
                 >
-                  <option value="" className="bg-[#161D31] text-white">All Localities in Bhopal</option>
+                  <option value="" className="bg-zinc-900 text-white">All Localities in Bhopal</option>
                   {BHOPAL_AREAS.map((a) => (
-                    <option key={a} value={a} className="bg-[#161D31] text-white">
+                    <option key={a} value={a} className="bg-zinc-900 text-white">
                       {a}
                     </option>
                   ))}
@@ -240,7 +240,7 @@ export default function Hero() {
               {/* Search Button */}
               <button
                 type="submit"
-                className="vuexy-btn-primary rounded-xl font-bold flex items-center justify-center gap-2 py-3 px-5 cursor-pointer text-sm tracking-wide"
+                className="bg-white text-zinc-950 hover:bg-zinc-200 rounded-xl font-semibold flex items-center justify-center gap-2 py-3 px-5 cursor-pointer text-sm tracking-wide transition shadow-sm"
               >
                 <Search size={18} />
                 <span>Find Home Tutor</span>
@@ -248,16 +248,16 @@ export default function Hero() {
             </div>
 
             {/* Quick Filter Tags */}
-            <div className="mt-3.5 pt-3 border-t border-slate-700/60 flex items-center gap-2 flex-wrap text-xs text-slate-400">
-              <span className="font-semibold text-slate-300 flex items-center gap-1">
-                <Award size={13} className="text-[#FF9F43]" /> Popular:
+            <div className="mt-3.5 pt-3 border-t border-zinc-800 flex items-center gap-2 flex-wrap text-xs text-zinc-400">
+              <span className="font-medium text-zinc-300 flex items-center gap-1">
+                <Award size={13} className="text-zinc-300" /> Popular:
               </span>
               {["Maths", "Physics", "Chemistry", "Biology", "English", "Accountancy"].map((tag) => (
                 <button
                   type="button"
                   key={tag}
                   onClick={() => handleQuickTagClick(tag)}
-                  className="px-2.5 py-1 rounded-lg bg-slate-800/90 hover:bg-[#7367F0]/20 hover:text-[#9E95F5] border border-slate-700/60 transition-all text-xs text-slate-300 cursor-pointer"
+                  className="px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 hover:text-white border border-zinc-800 transition-all text-xs text-zinc-400 cursor-pointer"
                 >
                   {tag}
                 </button>
@@ -269,15 +269,15 @@ export default function Hero() {
           <div ref={buttonsRef} className="mt-8 flex gap-4 flex-wrap items-center">
             <Link
               to="/find-tutors"
-              className="vuexy-btn-primary px-7 py-3.5 rounded-xl transition font-bold text-sm tracking-wide inline-flex items-center gap-2"
+              className="bg-white text-zinc-950 hover:bg-zinc-200 px-7 py-3.5 rounded-xl transition font-semibold text-sm tracking-wide inline-flex items-center gap-2 shadow-sm"
             >
               <span>Explore Verified Tutors</span>
-              <span className="text-white/80">→</span>
+              <span className="text-zinc-600">→</span>
             </Link>
 
             <Link
               to="/become-a-tutor"
-              className="border border-[#7367F0]/40 text-slate-200 hover:text-white hover:border-[#7367F0] hover:bg-[#7367F0]/10 px-7 py-3.5 rounded-xl transition font-semibold text-sm backdrop-blur-md"
+              className="border border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-900 px-7 py-3.5 rounded-xl transition font-medium text-sm"
             >
               Become a Home Tutor
             </Link>
@@ -343,46 +343,46 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* ================= FLOATING VUEXY BADGE 1: VERIFIED TUTORS ================= */}
+            {/* ================= FLOATING BADGE 1: VERIFIED TUTORS ================= */}
             <div
               ref={floatingBadge1Ref}
-              className="absolute -bottom-6 -left-6 bg-[#161D31]/95 backdrop-blur-xl border border-[#7367F0]/30 p-3.5 rounded-2xl shadow-[0_12px_30px_rgba(0,0,0,0.5)] flex items-center gap-3 hidden sm:flex z-20"
+              className="absolute -bottom-6 -left-6 bg-[#0c0c0e]/95 backdrop-blur-xl border border-zinc-800 p-3.5 rounded-2xl shadow-[0_12px_30px_rgba(0,0,0,0.8)] flex items-center gap-3 hidden sm:flex z-20"
             >
-              <div className="w-11 h-11 rounded-xl bg-[#7367F0]/20 border border-[#7367F0]/40 flex items-center justify-center text-[#9E95F5]">
-                <ShieldCheck size={22} className="text-[#7367F0]" />
+              <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-200">
+                <ShieldCheck size={20} className="text-emerald-400" />
               </div>
               <div>
-                <p className="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">
+                <p className="text-[11px] text-zinc-400 font-medium uppercase tracking-wider">
                   Verified Tutors
                 </p>
-                <p className="text-sm font-extrabold text-white flex items-center gap-1.5">
+                <p className="text-sm font-bold text-white flex items-center gap-1.5">
                   <span>500+ Verified</span>
-                  <span className="text-[#28C76F] text-xs">✓ Active</span>
+                  <span className="text-emerald-400 text-xs">✓ Active</span>
                 </p>
               </div>
             </div>
 
-            {/* ================= FLOATING VUEXY BADGE 2: PARENT RATING ================= */}
+            {/* ================= FLOATING BADGE 2: PARENT RATING ================= */}
             <div
               ref={floatingBadge2Ref}
-              className="absolute -top-5 -right-5 bg-[#161D31]/95 backdrop-blur-xl border border-amber-500/30 px-4 py-2.5 rounded-2xl shadow-[0_12px_30px_rgba(0,0,0,0.5)] flex items-center gap-2.5 hidden sm:flex z-20"
+              className="absolute -top-5 -right-5 bg-[#0c0c0e]/95 backdrop-blur-xl border border-zinc-800 px-4 py-2.5 rounded-2xl shadow-[0_12px_30px_rgba(0,0,0,0.8)] flex items-center gap-2.5 hidden sm:flex z-20"
             >
-              <div className="w-8 h-8 rounded-lg bg-[#FF9F43]/20 flex items-center justify-center text-[#FF9F43]">
-                <Star size={17} className="fill-[#FF9F43]" />
+              <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center text-amber-400">
+                <Star size={16} className="fill-amber-400" />
               </div>
               <div>
-                <p className="text-sm font-extrabold text-white leading-tight">4.9 / 5.0</p>
-                <p className="text-[10px] text-slate-400 font-medium">1,200+ Parent Reviews</p>
+                <p className="text-sm font-bold text-white leading-tight">4.9 / 5.0</p>
+                <p className="text-[10px] text-zinc-400 font-medium">1,200+ Parent Reviews</p>
               </div>
             </div>
 
-            {/* ================= FLOATING VUEXY BADGE 3: FAST MATCHING ================= */}
+            {/* ================= FLOATING BADGE 3: FAST MATCHING ================= */}
             <div
               ref={floatingBadge3Ref}
-              className="absolute top-1/2 -right-8 -translate-y-1/2 bg-[#161D31]/95 backdrop-blur-xl border border-[#28C76F]/30 px-3.5 py-2 rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.4)] flex items-center gap-2 hidden md:flex z-20"
+              className="absolute top-1/2 -right-8 -translate-y-1/2 bg-[#0c0c0e]/95 backdrop-blur-xl border border-zinc-800 px-3.5 py-2 rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.8)] flex items-center gap-2 hidden md:flex z-20"
             >
-              <span className="w-2 h-2 rounded-full bg-[#28C76F]" />
-              <span className="text-xs font-bold text-slate-200">2-Hr Match Time</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <span className="text-xs font-semibold text-zinc-200">2-Hr Match Time</span>
             </div>
 
           </div>

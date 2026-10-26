@@ -8,7 +8,7 @@ export default function TutorSkeleton({ count = 6 }) {
         {Array.from({ length: count }).map((_, index) => (
           <div
             key={index}
-            className="bg-card border-border border border border-border rounded-2xl overflow-hidden shadow-sm p-0 flex flex-col"
+            className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm p-0 flex flex-col"
           >
             {/* PHOTO SKELETON */}
             <div className="h-48 w-full">

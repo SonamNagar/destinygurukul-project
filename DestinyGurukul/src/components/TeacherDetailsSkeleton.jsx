@@ -7,7 +7,7 @@ export default function TeacherDetailsSkeleton() {
       <div className="min-h-screen bg-background py-12 px-6">
         <div className="max-w-6xl mx-auto">
           {/* TOP PROFILE CARD */}
-          <div className="bg-card border-border border rounded-3xl p-8 border border-border shadow-sm mb-8">
+          <div className="bg-card rounded-3xl p-8 border border-border shadow-sm mb-8">
             <div className="flex flex-col md:flex-row items-center gap-8">
               {/* Profile Avatar */}
               <Skeleton circle width={140} height={140} />
@@ -35,12 +35,12 @@ export default function TeacherDetailsSkeleton() {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* LEFT DETAILS */}
             <div className="lg:col-span-2 space-y-8">
-              <div className="bg-card border-border border rounded-3xl p-8 border border-border shadow-sm space-y-4">
+              <div className="bg-card rounded-3xl p-8 border border-border shadow-sm space-y-4">
                 <Skeleton width={160} height={24} />
                 <Skeleton count={4} height={16} />
               </div>
 
-              <div className="bg-card border-border border rounded-3xl p-8 border border-border shadow-sm space-y-4">
+              <div className="bg-card rounded-3xl p-8 border border-border shadow-sm space-y-4">
                 <Skeleton width={180} height={24} />
                 <div className="grid sm:grid-cols-2 gap-4">
                   <Skeleton height={70} borderRadius={16} />
@@ -53,7 +53,7 @@ export default function TeacherDetailsSkeleton() {
 
             {/* RIGHT SIDEBAR */}
             <div>
-              <div className="bg-card border-border border rounded-3xl p-8 border border-border shadow-sm space-y-5">
+              <div className="bg-card rounded-3xl p-8 border border-border shadow-sm space-y-5">
                 <Skeleton width={140} height={24} />
                 <Skeleton height={50} borderRadius={12} />
                 <Skeleton height={46} borderRadius={12} />

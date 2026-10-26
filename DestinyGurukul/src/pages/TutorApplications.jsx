@@ -246,7 +246,7 @@ export default function TutorApplications() {
   if (error) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
-        <div className="bg-card border-border border shadow-lg rounded-2xl p-8 text-center max-w-md">
+        <div className="bg-card shadow-lg rounded-2xl p-8 text-center max-w-md">
           <h2 className="text-2xl font-bold text-red-600 mb-3">Access Error</h2>
           <p className="text-muted-foreground">{error}</p>
           <button

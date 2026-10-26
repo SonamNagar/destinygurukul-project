@@ -4,7 +4,7 @@ import { Home, ArrowLeft, AlertTriangle } from "lucide-react";
 export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-6">
-      <div className="bg-card border-border border shadow-xl rounded-3xl p-10 max-w-lg w-full text-center">
+      <div className="bg-card shadow-xl rounded-3xl p-10 max-w-lg w-full text-center">
 
         <AlertTriangle
           size={70}

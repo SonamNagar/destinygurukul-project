@@ -104,7 +104,7 @@ export default function ResetPassword() {
 
           <Link
             to="/"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-card border-border border shadow-sm border border-border hover:shadow-md transition"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-card shadow-sm border border-border hover:shadow-md transition"
           >
             <div className="w-8 h-8 rounded-xl bg-primary text-primary-foreground flex items-center justify-center text-white">
               <GraduationCap size={20} />

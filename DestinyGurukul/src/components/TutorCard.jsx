@@ -16,26 +16,50 @@ export default function TutorCard() {
   const [error, setError] = useState("");
 
   // ==========================================
-  // GET APPROVED TUTORS
+  // GET APPROVED TUTORS (OPTIMIZED DATA FLOW)
   // ==========================================
 
-  async function getTutors() {
+  async function getTutors(force = false) {
+    // 1. Check in-memory / session cache first to eliminate unnecessary data flow
+    if (!force) {
+      try {
+        const cached = sessionStorage.getItem("featured_tutors_cache");
+        if (cached) {
+          const { data, timestamp } = JSON.parse(cached);
+          if (Date.now() - timestamp < 1000 * 60 * 5 && Array.isArray(data)) {
+            setTutors(data);
+            setLoading(false);
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn("Session cache read error:", err);
+      }
+    }
+
     try {
       setLoading(true);
       setError("");
 
-      const response = await api.get("/tutors");
+      // Request only 6 approved tutors rather than fetching the whole database
+      const response = await api.get("/tutors?limit=6");
 
-      // Sirf approved tutors
-      const approvedTutors = response.data.filter(
-        (tutor) => tutor.status === "approved"
-      );
+      const approvedTutors = Array.isArray(response.data)
+        ? response.data.filter((tutor) => tutor.status === "approved" || !tutor.status)
+        : [];
 
       setTutors(approvedTutors);
 
+      try {
+        sessionStorage.setItem(
+          "featured_tutors_cache",
+          JSON.stringify({ data: approvedTutors, timestamp: Date.now() })
+        );
+      } catch (cacheErr) {
+        console.warn("Session cache write error:", cacheErr);
+      }
     } catch (err) {
       console.log(err);
-
       setError(
         err.response?.data?.message ||
           "Unable to load tutors."
@@ -50,7 +74,7 @@ export default function TutorCard() {
   }, []);
 
   return (
-    <section className="py-16 bg-card border-border border">
+    <section className="py-16 bg-[#09090b] border-t border-zinc-800/80">
 
       <div className="max-w-7xl mx-auto px-6">
 
@@ -62,15 +86,15 @@ export default function TutorCard() {
 
           <div>
 
-            <p className="text-primary font-semibold uppercase tracking-wide">
+            <p className="text-zinc-400 font-medium text-xs uppercase tracking-wider">
               Featured Tutors
             </p>
 
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
+            <h2 className="text-3xl md:text-4xl font-bold text-zinc-100 mt-2 tracking-tight">
               Meet Our Tutors
             </h2>
 
-            <p className="text-muted-foreground mt-3 max-w-2xl">
+            <p className="text-zinc-400 mt-2 max-w-2xl text-sm sm:text-base">
               Learn from qualified and approved tutors
               according to your subject and requirements.
             </p>
@@ -80,10 +104,10 @@ export default function TutorCard() {
 
           <Link
             to="/find-tutors"
-            className="flex items-center gap-2 text-primary font-semibold hover:text-indigo-800"
+            className="flex items-center gap-2 text-zinc-300 hover:text-white font-medium text-sm transition-colors"
           >
             View All Tutors
-            <ArrowRight size={19} />
+            <ArrowRight size={18} />
           </Link>
 
         </div>
@@ -108,8 +132,8 @@ export default function TutorCard() {
             </p>
 
             <button
-              onClick={getTutors}
-              className="mt-4 bg-primary text-primary-foreground text-white px-5 py-2 rounded-lg"
+              onClick={() => getTutors(true)}
+              className="mt-4 bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-xl font-medium transition cursor-pointer"
             >
               Try Again
             </button>
@@ -159,13 +183,13 @@ export default function TutorCard() {
 
                 <div
                   key={tutor._id}
-                  className="bg-card border-border border border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 flex flex-col justify-between"
+                  className="bg-[#0c0c0e] border border-zinc-800 rounded-2xl overflow-hidden shadow-sm hover:border-zinc-700 hover:shadow-2xl hover:shadow-black/70 transition-all duration-300 flex flex-col justify-between"
                 >
 
                   <div>
                     {/* PHOTO */}
 
-                    <div className="h-48 bg-indigo-100 flex items-center justify-center relative overflow-hidden">
+                    <div className="h-48 bg-zinc-900 flex items-center justify-center relative overflow-hidden">
 
                       {tutor.photo ? (
 
@@ -178,16 +202,16 @@ export default function TutorCard() {
                       ) : (
 
                         <GraduationCap
-                          size={70}
-                          className="text-indigo-400"
+                          size={64}
+                          className="text-zinc-600"
                         />
 
                       )}
 
                       {/* RATING BADGE */}
-                      <div className="absolute top-3 right-3 bg-card border-border border/95 backdrop-blur-sm px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
+                      <div className="absolute top-3 right-3 bg-zinc-900/90 border border-zinc-800 backdrop-blur-md px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1.5">
                         <RatingStars rating={tutor.rating || 4.8} size={14} />
-                        <span className="text-xs font-bold text-gray-700">
+                        <span className="text-xs font-bold text-zinc-200">
                           {(tutor.rating || 4.8).toFixed(1)}
                         </span>
                       </div>
@@ -201,7 +225,7 @@ export default function TutorCard() {
 
                       {/* NAME & RATING */}
                       <div className="flex items-start justify-between gap-2">
-                        <h3 className="text-xl font-bold text-foreground">
+                        <h3 className="text-lg font-bold text-zinc-100">
                           {tutor.name}
                         </h3>
                       </div>
@@ -209,25 +233,25 @@ export default function TutorCard() {
 
                       {/* SUBJECT */}
 
-                      <p className="text-primary font-semibold mt-1">
+                      <p className="text-zinc-300 font-medium text-sm mt-1">
                         {tutor.subject}
                       </p>
 
 
                       {/* DETAILS */}
 
-                      <div className="space-y-3 mt-5">
+                      <div className="space-y-2.5 mt-5">
 
                         {/* Qualification */}
 
-                        <div className="flex items-center gap-3 text-muted-foreground">
+                        <div className="flex items-center gap-2.5 text-zinc-400 text-xs sm:text-sm">
 
                           <GraduationCap
-                            size={19}
-                            className="text-indigo-500"
+                            size={16}
+                            className="text-zinc-500 shrink-0"
                           />
 
-                          <span>
+                          <span className="truncate">
                             {tutor.qualification}
                           </span>
 
@@ -236,14 +260,14 @@ export default function TutorCard() {
 
                         {/* City */}
 
-                        <div className="flex items-center gap-3 text-muted-foreground">
+                        <div className="flex items-center gap-2.5 text-zinc-400 text-xs sm:text-sm">
 
                           <MapPin
-                            size={19}
-                            className="text-indigo-500"
+                            size={16}
+                            className="text-zinc-500 shrink-0"
                           />
 
-                          <span>
+                          <span className="truncate">
                             {tutor.city}
                           </span>
 
@@ -252,14 +276,14 @@ export default function TutorCard() {
 
                         {/* Experience */}
 
-                        <div className="flex items-center gap-3 text-muted-foreground">
+                        <div className="flex items-center gap-2.5 text-zinc-400 text-xs sm:text-sm">
 
                           <BookOpen
-                            size={19}
-                            className="text-indigo-500"
+                            size={16}
+                            className="text-zinc-500 shrink-0"
                           />
 
-                          <span>
+                          <span className="truncate">
                             {tutor.experience || 0} years experience
                           </span>
 
@@ -274,10 +298,10 @@ export default function TutorCard() {
                   <div className="px-6 pb-6 pt-0">
                     <Link
                       to={`/teacher/${tutor._id}`}
-                      className="w-full bg-primary text-primary-foreground text-white py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-primary text-primary-foreground transition font-medium"
+                      className="w-full bg-zinc-100 text-zinc-950 hover:bg-zinc-200 py-2.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-xs sm:text-sm transition cursor-pointer"
                     >
                       View Profile
-                      <ArrowRight size={18} />
+                      <ArrowRight size={16} />
                     </Link>
                   </div>
 

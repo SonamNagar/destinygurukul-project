@@ -220,7 +220,7 @@ export default function TeacherDetails() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
 
-        <div className="bg-card border-border border rounded-2xl shadow-lg p-8 text-center max-w-md">
+        <div className="bg-card rounded-2xl shadow-lg p-8 text-center max-w-md">
 
           <h2 className="text-2xl font-bold text-red-600">
             Tutor Not Found
@@ -258,7 +258,7 @@ export default function TeacherDetails() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
 
-        <div className="bg-card border-border border rounded-2xl shadow-lg p-8 text-center max-w-md">
+        <div className="bg-card rounded-2xl shadow-lg p-8 text-center max-w-md">
 
           <h2 className="text-2xl font-bold text-foreground">
             Tutor Not Available
@@ -303,7 +303,7 @@ export default function TeacherDetails() {
             PROFILE HEADER
         ========================================== */}
 
-        <div className="bg-card border-border border rounded-3xl shadow-lg overflow-hidden">
+        <div className="bg-card rounded-3xl shadow-lg overflow-hidden">
 
           <div className="bg-gradient-to-r from-indigo-700 to-indigo-900 h-36"></div>
 
@@ -396,7 +396,7 @@ export default function TeacherDetails() {
 
             {/* ABOUT */}
 
-            <div className="bg-card border-border border rounded-2xl shadow p-7">
+            <div className="bg-card rounded-2xl shadow p-7">
 
               <h2 className="text-2xl font-bold text-foreground mb-4">
                 About Tutor
@@ -412,7 +412,7 @@ export default function TeacherDetails() {
 
             {/* QUALIFICATION */}
 
-            <div className="bg-card border-border border rounded-2xl shadow p-7">
+            <div className="bg-card rounded-2xl shadow p-7">
 
               <h2 className="text-2xl font-bold text-foreground mb-6">
                 Tutor Information
@@ -515,7 +515,7 @@ export default function TeacherDetails() {
 
             {/* TEACHING DETAILS */}
 
-            <div className="bg-card border-border border rounded-2xl shadow p-7">
+            <div className="bg-card rounded-2xl shadow p-7">
 
               <h2 className="text-2xl font-bold text-foreground mb-6">
                 Teaching Details
@@ -581,7 +581,7 @@ export default function TeacherDetails() {
 
 
             {/* REVIEWS & RATINGS SECTION */}
-            <div className="bg-card border-border border rounded-2xl shadow p-7 space-y-6">
+            <div className="bg-card rounded-2xl shadow p-7 space-y-6">
               <div className="flex items-center justify-between border-b pb-4">
                 <div className="flex items-center gap-2">
                   <MessageSquare className="text-primary" size={24} />
@@ -620,7 +620,7 @@ export default function TeacherDetails() {
                       placeholder="e.g. Rahul Sharma"
                       value={reviewerName}
                       onChange={(e) => setReviewerName(e.target.value)}
-                      className="w-full px-4 py-2 bg-card border-border border border border-border rounded-xl text-sm focus:outline-none focus:border-indigo-500"
+                      className="w-full px-4 py-2 bg-card border border-border rounded-xl text-sm focus:outline-none focus:border-indigo-500"
                     />
                   </div>
                 </div>
@@ -634,7 +634,7 @@ export default function TeacherDetails() {
                     placeholder="Share your experience learning with this tutor..."
                     value={reviewComment}
                     onChange={(e) => setReviewComment(e.target.value)}
-                    className="w-full px-4 py-2 bg-card border-border border border border-border rounded-xl text-sm focus:outline-none focus:border-indigo-500"
+                    className="w-full px-4 py-2 bg-card border border-border rounded-xl text-sm focus:outline-none focus:border-indigo-500"
                   />
                 </div>
 
@@ -688,7 +688,7 @@ export default function TeacherDetails() {
 
           <div>
 
-            <div className="bg-card border-border border rounded-2xl shadow-lg p-7 sticky top-6">
+            <div className="bg-card rounded-2xl shadow-lg p-7 sticky top-6">
 
               <h2 className="text-2xl font-bold text-foreground">
                 Book This Tutor
@@ -766,7 +766,7 @@ export default function TeacherDetails() {
       ========================================== */}
       {isBookingOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-card border-border border w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="bg-card w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             
             {/* MODAL HEADER */}
             <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white flex items-center justify-between">
@@ -778,7 +778,7 @@ export default function TeacherDetails() {
               </div>
               <button
                 onClick={() => setIsBookingOpen(false)}
-                className="w-8 h-8 rounded-full bg-card border-border border/20 hover:bg-card border-border border/30 flex items-center justify-center text-white transition"
+                className="w-8 h-8 rounded-full bg-card/20 hover:bg-card/30 flex items-center justify-center text-white transition"
               >
                 <X size={18} />
               </button>
@@ -965,7 +965,7 @@ export default function TeacherDetails() {
                   placeholder="Mention any specific topics or learning requirements..."
                   value={bookingMessage}
                   onChange={(e) => setBookingMessage(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-background border border-border rounded-xl text-sm text-foreground focus:outline-none focus:border-indigo-500 focus:bg-card border-border border transition"
+                  className="w-full px-4 py-2.5 bg-background border border-border rounded-xl text-sm text-foreground focus:outline-none focus:border-indigo-500 focus:bg-card transition"
                 />
               </div>
 

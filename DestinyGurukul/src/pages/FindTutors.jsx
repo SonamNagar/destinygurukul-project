@@ -118,7 +118,7 @@ export default function FindTutors() {
             SEARCH BOX
         ========================================== */}
 
-        <div className="bg-card border-border border rounded-2xl shadow p-6 mb-10">
+        <div className="bg-card rounded-2xl shadow p-6 mb-10">
 
           <div className="grid md:grid-cols-4 gap-4">
 
@@ -336,7 +336,7 @@ export default function FindTutors() {
           !error &&
           filteredTutors.length === 0 && (
 
-            <div className="bg-card border-border border rounded-2xl shadow p-12 text-center">
+            <div className="bg-card rounded-2xl shadow p-12 text-center">
 
               <GraduationCap
                 size={65}
@@ -369,7 +369,7 @@ export default function FindTutors() {
 
                 <div
                   key={tutor._id}
-                  className="bg-card border-border border rounded-2xl shadow-sm border overflow-hidden hover:shadow-xl transition flex flex-col justify-between"
+                  className="bg-card rounded-2xl shadow-sm border overflow-hidden hover:shadow-xl transition flex flex-col justify-between"
                 >
 
                   <div>
@@ -395,7 +395,7 @@ export default function FindTutors() {
                       )}
 
                       {/* RATING BADGE */}
-                      <div className="absolute top-3 right-3 bg-card border-border border/95 backdrop-blur-sm px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
+                      <div className="absolute top-3 right-3 bg-card/95 backdrop-blur-sm px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
                         <RatingStars rating={tutor.rating || 4.8} size={14} />
                         <span className="text-xs font-bold text-gray-700">
                           {(tutor.rating || 4.8).toFixed(1)}

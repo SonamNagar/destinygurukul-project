@@ -25,7 +25,7 @@ export default function About() {
         {/* Mission & Vision */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
 
-          <div className="bg-card border-border border/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl hover:border-indigo-500/50 transition group">
+          <div className="bg-card/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl hover:border-indigo-500/50 transition group">
             <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 mb-6 group-hover:scale-110 transition">
               <Target size={32} />
             </div>
@@ -36,7 +36,7 @@ export default function About() {
             </p>
           </div>
 
-          <div className="bg-card border-border border/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl hover:border-purple-500/50 transition group">
+          <div className="bg-card/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl hover:border-purple-500/50 transition group">
             <div className="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center text-purple-400 mb-6 group-hover:scale-110 transition">
               <ShieldCheck size={32} />
             </div>
@@ -60,7 +60,7 @@ export default function About() {
 
           <div className="grid md:grid-cols-3 gap-8">
 
-            <div className="bg-card border-border border/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center hover:bg-card border-border border/10 transition shadow-xl">
+            <div className="bg-card/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center hover:bg-card/10 transition shadow-xl">
               <div className="w-16 h-16 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mx-auto mb-6">
                 <GraduationCap size={36} />
               </div>
@@ -73,7 +73,7 @@ export default function About() {
               </p>
             </div>
 
-            <div className="bg-card border-border border/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center hover:bg-card border-border border/10 transition shadow-xl">
+            <div className="bg-card/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center hover:bg-card/10 transition shadow-xl">
               <div className="w-16 h-16 rounded-2xl bg-green-500/20 text-green-400 flex items-center justify-center mx-auto mb-6">
                 <Users size={36} />
               </div>
@@ -86,7 +86,7 @@ export default function About() {
               </p>
             </div>
 
-            <div className="bg-card border-border border/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center hover:bg-card border-border border/10 transition shadow-xl">
+            <div className="bg-card/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center hover:bg-card/10 transition shadow-xl">
               <div className="w-16 h-16 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center mx-auto mb-6">
                 <ShieldCheck size={36} />
               </div>
@@ -110,7 +110,7 @@ export default function About() {
           </div>
           <Link
             to="/find-tutors"
-            className="bg-card border-border border text-indigo-900 font-bold px-8 py-3.5 rounded-2xl hover:bg-indigo-50 transition shadow-lg text-sm"
+            className="bg-card text-indigo-900 font-bold px-8 py-3.5 rounded-2xl hover:bg-indigo-50 transition shadow-lg text-sm"
           >
             Find Home Tutors Now
           </Link>

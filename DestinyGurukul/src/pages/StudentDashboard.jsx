@@ -124,7 +124,7 @@ export default function StudentDashboard() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
             <div className="flex items-center gap-5">
-              <div className="w-16 h-16 rounded-2xl bg-card border-border border/20 backdrop-blur-sm flex items-center justify-center border border-white/30 shadow-lg">
+              <div className="w-16 h-16 rounded-2xl bg-card/20 backdrop-blur-sm flex items-center justify-center border border-white/30 shadow-lg">
                 <User size={32} />
               </div>
               <div>
@@ -139,14 +139,14 @@ export default function StudentDashboard() {
             <div className="flex gap-3">
               <button
                 onClick={() => navigate("/find-tutors")}
-                className="flex items-center gap-2 bg-card border-border border text-primary px-5 py-2.5 rounded-xl font-semibold hover:bg-indigo-50 transition shadow-sm"
+                className="flex items-center gap-2 bg-card text-primary px-5 py-2.5 rounded-xl font-semibold hover:bg-indigo-50 transition shadow-sm"
               >
                 <Search size={16} />
                 Find Tutors
               </button>
               <button
                 onClick={() => navigate("/profile")}
-                className="flex items-center gap-2 bg-card border-border border/10 border border-white/30 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-card border-border border/20 transition"
+                className="flex items-center gap-2 bg-card/10 border border-white/30 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-card/20 transition"
               >
                 Edit Profile
               </button>
@@ -163,7 +163,7 @@ export default function StudentDashboard() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
 
           {/* Total Bookings */}
-          <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center">
               <BookOpen className="text-primary" size={22} />
             </div>
@@ -176,7 +176,7 @@ export default function StudentDashboard() {
           </div>
 
           {/* Upcoming Classes */}
-          <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center">
               <Calendar className="text-green-600" size={22} />
             </div>
@@ -189,7 +189,7 @@ export default function StudentDashboard() {
           </div>
 
           {/* Pending */}
-          <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-yellow-50 flex items-center justify-center">
               <Clock className="text-yellow-600" size={22} />
             </div>
@@ -202,7 +202,7 @@ export default function StudentDashboard() {
           </div>
 
           {/* Completed */}
-          <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-6 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center">
               <Star className="text-violet-600" size={22} />
             </div>
@@ -222,7 +222,7 @@ export default function StudentDashboard() {
         <div className="grid lg:grid-cols-3 gap-6">
 
           {/* ======= UPCOMING CLASSES ======= */}
-          <div className="lg:col-span-2 bg-card border-border border rounded-2xl border border-border shadow-sm p-6">
+          <div className="lg:col-span-2 bg-card rounded-2xl border border-border shadow-sm p-6">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                 <TrendingUp size={20} className="text-primary" />
@@ -304,7 +304,7 @@ export default function StudentDashboard() {
           <div className="space-y-6">
 
             {/* Profile Card */}
-            <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6">
+            <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
               <div className="flex flex-col items-center text-center">
                 <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-md mb-4">
                   <User size={38} />
@@ -346,7 +346,7 @@ export default function StudentDashboard() {
         {/* ====================================================
             RECENT NOTIFICATIONS
         ==================================================== */}
-        <div className="bg-card border-border border rounded-2xl border border-border shadow-sm p-6 mt-6">
+        <div className="bg-card rounded-2xl border border-border shadow-sm p-6 mt-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
               <Bell size={20} className="text-primary" />

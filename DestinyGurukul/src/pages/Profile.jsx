@@ -135,7 +135,7 @@ export default function Profile() {
               LEFT - AVATAR CARD
           ========================================== */}
           <div className="lg:col-span-1">
-            <div className="bg-card border-border border rounded-2xl shadow-sm border border-border p-6 text-center">
+            <div className="bg-card rounded-2xl shadow-sm border border-border p-6 text-center">
 
               {/* Avatar */}
               <div className="relative w-28 h-28 mx-auto mb-4">
@@ -203,7 +203,7 @@ export default function Profile() {
               RIGHT - FORM CARD
           ========================================== */}
           <div className="lg:col-span-2">
-            <div className="bg-card border-border border rounded-2xl shadow-sm border border-border p-8">
+            <div className="bg-card rounded-2xl shadow-sm border border-border p-8">
 
               <h3 className="text-lg font-bold text-foreground mb-6 pb-4 border-b border-border">
                 Personal Information
@@ -238,7 +238,7 @@ export default function Profile() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Your full name"
-                        className="w-full border border-border rounded-xl py-3 pl-11 pr-4 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-background focus:bg-card border-border border"
+                        className="w-full border border-border rounded-xl py-3 pl-11 pr-4 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-background focus:bg-card"
                       />
                     </div>
                   </div>
@@ -277,7 +277,7 @@ export default function Profile() {
                         value={formData.phoneNumber}
                         onChange={handleChange}
                         placeholder="e.g. 9876543210"
-                        className="w-full border border-border rounded-xl py-3 pl-11 pr-4 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-background focus:bg-card border-border border"
+                        className="w-full border border-border rounded-xl py-3 pl-11 pr-4 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-background focus:bg-card"
                       />
                     </div>
                   </div>
@@ -295,7 +295,7 @@ export default function Profile() {
                         value={formData.city}
                         onChange={handleChange}
                         placeholder="e.g. Indore"
-                        className="w-full border border-border rounded-xl py-3 pl-11 pr-4 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-background focus:bg-card border-border border"
+                        className="w-full border border-border rounded-xl py-3 pl-11 pr-4 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-background focus:bg-card"
                       />
                     </div>
                   </div>
@@ -313,7 +313,7 @@ export default function Profile() {
                         value={formData.qualification}
                         onChange={handleChange}
                         placeholder="e.g. B.Tech, MBA, B.Ed"
-                        className="w-full border border-border rounded-xl py-3 pl-11 pr-4 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-background focus:bg-card border-border border"
+                        className="w-full border border-border rounded-xl py-3 pl-11 pr-4 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-background focus:bg-card"
                       />
                     </div>
                   </div>
@@ -329,7 +329,7 @@ export default function Profile() {
                       value={formData.address}
                       onChange={handleChange}
                       placeholder="Your full address"
-                      className="w-full border border-border rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-background focus:bg-card border-border border"
+                      className="w-full border border-border rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-background focus:bg-card"
                     />
                   </div>
 
@@ -344,7 +344,7 @@ export default function Profile() {
                       value={formData.bio}
                       onChange={handleChange}
                       placeholder="Tell us about yourself, your teaching style, or learning goals..."
-                      className="w-full border border-border rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-background focus:bg-card border-border border resize-none"
+                      className="w-full border border-border rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-background focus:bg-card resize-none"
                     />
                   </div>
 

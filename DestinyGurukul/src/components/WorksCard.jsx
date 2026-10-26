@@ -84,19 +84,19 @@ export default function WorksCard() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-20 bg-slate-50/50 dark:bg-[#0b0f19] border-t border-slate-200/80 dark:border-slate-800">
+    <section ref={sectionRef} className="py-20 bg-[#09090b] border-t border-zinc-800/80">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Heading */}
         <div ref={headingRef} className="text-center mb-14">
-          <span className="inline-flex items-center gap-1.5 bg-[#7367F0]/10 text-[#7367F0] border border-[#7367F0]/20 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
-            <ShieldCheck size={14} /> Transparent & Safe Process
+          <span className="inline-flex items-center gap-1.5 bg-zinc-900 text-zinc-300 border border-zinc-800 px-3.5 py-1 rounded-full text-xs font-medium tracking-wide mb-3">
+            <ShieldCheck size={14} className="text-emerald-400" /> Transparent & Safe Process
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-100 tracking-tight">
             How Destiny Gurukul Works
           </h2>
 
-          <p className="mt-3 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+          <p className="mt-3 text-zinc-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
             Student ki suraksha aur teacher ki reliability ke liye transparent 4-step process follow kiya jata hai.
           </p>
         </div>
@@ -107,35 +107,35 @@ export default function WorksCard() {
             <div
               key={step.id}
               ref={(el) => (cardsRef.current[idx] = el)}
-              className="vuexy-card vuexy-card-hover p-6 rounded-2xl text-center bg-white dark:bg-[#161D31] flex flex-col justify-between relative group"
+              className="p-6 rounded-2xl text-center bg-[#0c0c0e] border border-zinc-800 flex flex-col justify-between relative group hover:border-zinc-700 hover:shadow-2xl hover:shadow-black/70 transition-all duration-300"
             >
               <div>
                 {/* Step Pill */}
-                <div className="w-8 h-8 rounded-full bg-[#7367F0] text-white flex items-center justify-center mx-auto mb-4 font-black text-xs shadow-md shadow-[#7367F0]/30">
+                <div className="w-7 h-7 rounded-full bg-zinc-100 text-zinc-950 flex items-center justify-center mx-auto mb-4 font-bold text-xs shadow-sm">
                   {step.id}
                 </div>
 
                 {/* Icon */}
                 <div className="flex justify-center mb-4">
-                  <div className={`p-3.5 rounded-2xl border ${step.badgeBg} group-hover:scale-110 transition-transform duration-300`}>
+                  <div className="p-3.5 rounded-2xl bg-zinc-900 border border-zinc-800 group-hover:scale-105 transition-transform duration-300">
                     {step.icon}
                   </div>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                <h3 className="text-base sm:text-lg font-bold text-zinc-100">
                   {step.title}
                 </h3>
 
                 {/* Description */}
-                <p className="mt-3 text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
+                <p className="mt-2.5 text-zinc-400 text-xs sm:text-sm leading-relaxed">
                   {step.desc}
                 </p>
               </div>
 
               {step.highlight && (
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
-                  <span className="text-[11px] font-bold text-[#FF9F43] bg-[#FF9F43]/10 px-2.5 py-1 rounded-md inline-block">
+                <div className="mt-4 pt-3 border-t border-zinc-800/80">
+                  <span className="text-[11px] font-semibold text-zinc-300 bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-md inline-block">
                     ⚡ {step.highlight}
                   </span>
                 </div>

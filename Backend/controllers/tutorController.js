@@ -14,9 +14,18 @@ export const getAllTutors = async (req, res) => {
       filter.status = req.query.status;
     }
 
-    const tutors = await BecomeTutor.find(filter)
+    let query = BecomeTutor.find(filter)
       .select("-certificate -rejectionReason")
       .sort({ createdAt: -1 });
+
+    if (req.query.limit) {
+      const limit = parseInt(req.query.limit, 10);
+      if (!isNaN(limit) && limit > 0) {
+        query = query.limit(limit);
+      }
+    }
+
+    const tutors = await query;
 
     res.status(200).json(tutors);
   } catch (error) {

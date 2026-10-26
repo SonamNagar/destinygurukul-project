@@ -47,7 +47,7 @@ export default function Contact() {
         <div className="grid lg:grid-cols-2 gap-10">
 
           {/* Contact Form */}
-          <div className="bg-card border-border border/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-8">
+          <div className="bg-card/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-8">
 
             <h2 className="text-3xl font-extrabold mb-6 text-white flex items-center gap-2">
               <Sparkles className="text-amber-400" size={24} /> Send Us a Message
@@ -65,7 +65,7 @@ export default function Contact() {
                   placeholder="e.g. Rahul Sharma"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-card border-border border/10 border border-white/20 rounded-2xl p-3.5 text-white placeholder-indigo-300/50 outline-none focus:border-indigo-400 focus:bg-card border-border border/20 transition text-sm"
+                  className="w-full bg-card/10 border border-white/20 rounded-2xl p-3.5 text-white placeholder-indigo-300/50 outline-none focus:border-indigo-400 focus:bg-card/20 transition text-sm"
                 />
               </div>
 
@@ -79,7 +79,7 @@ export default function Contact() {
                   placeholder="e.g. rahul@gmail.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-card border-border border/10 border border-white/20 rounded-2xl p-3.5 text-white placeholder-indigo-300/50 outline-none focus:border-indigo-400 focus:bg-card border-border border/20 transition text-sm"
+                  className="w-full bg-card/10 border border-white/20 rounded-2xl p-3.5 text-white placeholder-indigo-300/50 outline-none focus:border-indigo-400 focus:bg-card/20 transition text-sm"
                 />
               </div>
 
@@ -92,7 +92,7 @@ export default function Contact() {
                   placeholder="e.g. Home Tutor for Class 10 Math in Bhopal"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full bg-card border-border border/10 border border-white/20 rounded-2xl p-3.5 text-white placeholder-indigo-300/50 outline-none focus:border-indigo-400 focus:bg-card border-border border/20 transition text-sm"
+                  className="w-full bg-card/10 border border-white/20 rounded-2xl p-3.5 text-white placeholder-indigo-300/50 outline-none focus:border-indigo-400 focus:bg-card/20 transition text-sm"
                 />
               </div>
 
@@ -106,7 +106,7 @@ export default function Contact() {
                   placeholder="Describe your tuition requirements..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-card border-border border/10 border border-white/20 rounded-2xl p-3.5 text-white placeholder-indigo-300/50 outline-none focus:border-indigo-400 focus:bg-card border-border border/20 transition text-sm"
+                  className="w-full bg-card/10 border border-white/20 rounded-2xl p-3.5 text-white placeholder-indigo-300/50 outline-none focus:border-indigo-400 focus:bg-card/20 transition text-sm"
                 ></textarea>
               </div>
 
@@ -126,7 +126,7 @@ export default function Contact() {
           {/* Contact Info */}
           <div className="space-y-6">
 
-            <div className="bg-card border-border border/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex gap-5 hover:bg-card border-border border/10 transition shadow-xl items-center">
+            <div className="bg-card/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex gap-5 hover:bg-card/10 transition shadow-xl items-center">
               <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
                 <MapPin size={28} />
               </div>
@@ -138,7 +138,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-card border-border border/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex gap-5 hover:bg-card border-border border/10 transition shadow-xl items-center">
+            <div className="bg-card/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex gap-5 hover:bg-card/10 transition shadow-xl items-center">
               <div className="w-14 h-14 rounded-2xl bg-green-500/20 text-green-400 flex items-center justify-center shrink-0">
                 <Phone size={28} />
               </div>
@@ -148,7 +148,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-card border-border border/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex gap-5 hover:bg-card border-border border/10 transition shadow-xl items-center">
+            <div className="bg-card/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex gap-5 hover:bg-card/10 transition shadow-xl items-center">
               <div className="w-14 h-14 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0">
                 <Mail size={28} />
               </div>
@@ -160,7 +160,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-card border-border border/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex gap-5 hover:bg-card border-border border/10 transition shadow-xl items-center">
+            <div className="bg-card/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex gap-5 hover:bg-card/10 transition shadow-xl items-center">
               <div className="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
                 <Clock size={28} />
               </div>
